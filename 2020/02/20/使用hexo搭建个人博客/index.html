@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V13OUZmg3WbLxe/uBYLWP1rBn1tc1x0uHNIVRrgE2QMS2xaUDfw2VixJU1cpeHTWv39*PGsT8GXXO8G54gINHIh2Io*wCv*q*baviXwrIGmNl5Tsrz9FbaIR14!/b&bo=.ABhAAAAAAADB7s!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V13OUZmg3WbLxe/uBYLWP1rBn1tc1x0uHNIVU8n6LDisDgVchwLzrCqQtQ3Yw3FWBLnKZIizVg*Hqhw02EWfiQOZFtZzzIhERzNcCapsq7ymYmPpGxC3U5G5bY!/b&bo=eALNAAAAAAADB5U!&rf=viewer_4">
 <meta property="article:published_time" content="2020-02-20T08:38:33.000Z">
-<meta property="article:modified_time" content="2020-02-20T13:38:14.178Z">
+<meta property="article:modified_time" content="2020-02-24T14:19:20.515Z">
 <meta property="article:author" content="Table">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
@@ -172,10 +172,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-02-20 16:38:33 / Modified: 21:38:14" itemprop="dateCreated datePublished" datetime="2020-02-20T16:38:33+08:00">2020-02-20</time>
+              <time title="Created: 2020-02-20 16:38:33" itemprop="dateCreated datePublished" datetime="2020-02-20T16:38:33+08:00">2020-02-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-24 22:19:20" itemprop="dateModified" datetime="2020-02-24T22:19:20+08:00">2020-02-24</time>
+              </span>
 
           
 
@@ -198,36 +204,65 @@
 <h2 id="Hexo安装"><a href="#Hexo安装" class="headerlink" title="Hexo安装"></a>Hexo安装</h2><p>在安装Hexo之前，需要先安装 <a href="http://nodejs.cn/download/" target="_blank" rel="noopener" title="Node.js Download">Node.js</a> 和 <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener" title="Git Download">Git</a> </p>
 <h4 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h4><p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境，当然这不是重点。重点是Hexo需要使用npm安装，而Node.js使用npm作为包管理工具——所以我们安装Node.js是为了使用npm</p>
 <h4 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h4><p>Git是一个开源的分布式版本控制系统，用于部署站点和更新内容</p>
-<hr>
 <p>安装完成后，在命令行中输入以下代码来检查是否安装成功</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
 
 <p>若输出版本号(如下)，说明安装成功</p>
 <p><img src="http://m.qpic.cn/psc?/V13OUZmg3WbLxe/uBYLWP1rBn1tc1x0uHNIVRrgE2QMS2xaUDfw2VixJU1cpeHTWv39*PGsT8GXXO8G54gINHIh2Io*wCv*q*baviXwrIGmNl5Tsrz9FbaIR14!/b&bo=.ABhAAAAAAADB7s!&rf=viewer_4" alt="安装成功时的输出"></p>
-<hr>
 <p>确认安装好 Node.js 之后，在<strong>命令行</strong>中输入以下代码来安装Hexo</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
-<h2 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h2><h3 id="初始化站点"><a href="#初始化站点" class="headerlink" title="初始化站点"></a>初始化站点</h3><p>安装完 Hexo 后，执行下列命令，Hexo将会在指定文件夹中新建所需要的文件</p>
+<h2 id="Hexo基本操作"><a href="#Hexo基本操作" class="headerlink" title="Hexo基本操作"></a>Hexo基本操作</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init [folder]</span><br></pre></td></tr></table></figure>
+<p>新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站</p>
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<p>新建一篇文章。如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-p, –path</td>
+<td>自定义新文章的路径</td>
+</tr>
+<tr>
+<td>-r, –replace</td>
+<td>如果存在同名文章，将其替换</td>
+</tr>
+</tbody></table>
+<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<p>生成静态文件</p>
+<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>启动服务器。默认情况下，访问网址为： <code>http://localhost:4000/</code></p>
+<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>部署网站，<strong>需要先生成静态文件</strong></p>
+<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+<p>清除缓存文件和已经生成的静态文件</p>
+<blockquote>
+<p>在发现对站点的更改无法生效时，可以尝试执行该指令后重新部署</p>
+</blockquote>
+<h1 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h1><h2 id="初始化站点"><a href="#初始化站点" class="headerlink" title="初始化站点"></a>初始化站点</h2><p>安装完 Hexo 后，执行下列命令，Hexo将会在指定文件夹中新建所需要的文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;站点文件夹地址&gt;</span><br><span class="line">cd &lt;站点文件夹地址&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
 <p>或者你也可以在文件夹中新建一个空的站点文件夹，进入该文件夹后在空白处用<code>shift + 鼠标右键</code>打开快捷菜单栏，选择“在此处打开Powershell窗口”进入命令行工具，直接输入 <code>hexo init</code> 指令</p>
-<h3 id="站点文件夹简介"><a href="#站点文件夹简介" class="headerlink" title="站点文件夹简介"></a>站点文件夹简介</h3><p>执行 <code>hexo init</code> 指令后，可以看到站点文件夹的构成如下</p>
+<h2 id="站点文件夹简介"><a href="#站点文件夹简介" class="headerlink" title="站点文件夹简介"></a>站点文件夹简介</h2><p>执行 <code>hexo init</code> 指令后，可以看到站点文件夹的构成如下</p>
 <p><img src="http://m.qpic.cn/psc?/V13OUZmg3WbLxe/uBYLWP1rBn1tc1x0uHNIVU8n6LDisDgVchwLzrCqQtQ3Yw3FWBLnKZIizVg*Hqhw02EWfiQOZFtZzzIhERzNcCapsq7ymYmPpGxC3U5G5bY!/b&bo=eALNAAAAAAADB5U!&rf=viewer_4" alt="站点文件夹构成"></p>
-<h4 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds"></a>scaffolds</h4><p>模板文件夹。在新建文章时，Hexo 会根据 scaffold 来建立文件</p>
+<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds"></a>scaffolds</h3><p>模板文件夹。在新建文章时，Hexo 会根据 scaffold 来建立文件</p>
 <blockquote>
 <p>Hexo的模板是指在新建的文章文件中默认填充的内容。例如，如果您修改scaffold/post.md中的Front-matter内容，那么每次新建一篇文章时都会包含这个修改</p>
 </blockquote>
-<h4 id="source"><a href="#source" class="headerlink" title="source"></a>source</h4><p>资源文件夹。用于存放用户资源</p>
+<h3 id="source"><a href="#source" class="headerlink" title="source"></a>source</h3><p>资源文件夹。用于存放用户资源</p>
 <blockquote>
 <p>除<code>_posts</code>文件夹之外，开头命名为<code>_</code>(下划线)的文件/文件夹和隐藏的文件将会被忽略</p>
 </blockquote>
-<h4 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h4><p>主题文件夹。Hexo根据主题生成静态页面</p>
-<h4 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h4><p>网站的配置信息，大部分的参数都在此配置</p>
-<h4 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h4><p>应用程序的信息</p>
-<h3 id="部署站点"><a href="#部署站点" class="headerlink" title="部署站点"></a>部署站点</h3><h4 id="GitHub-Pages服务"><a href="#GitHub-Pages服务" class="headerlink" title="GitHub Pages服务"></a>GitHub Pages服务</h4><p>Github Pages用于托管个人的静态网站，这是搭建个人博客的关键</p>
+<h3 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h3><p>主题文件夹。Hexo根据主题生成静态页面</p>
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>网站的配置信息，大部分的参数都在此配置</p>
+<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p>应用程序的信息</p>
+<h2 id="部署站点"><a href="#部署站点" class="headerlink" title="部署站点"></a>部署站点</h2><h3 id="GitHub-Pages服务"><a href="#GitHub-Pages服务" class="headerlink" title="GitHub Pages服务"></a>GitHub Pages服务</h3><p>Github Pages用于托管个人的静态网站，这是搭建个人博客的关键</p>
 <p><strong>进行以下步骤前，你需要拥有一个GitHub账号</strong></p>
-<h5 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h5><p>新建仓库，注意，该仓库<strong>必须</strong>命名为<code>username.github.io</code>，<code>username</code> 指你的GitHub账号，以该方式命名的仓库会开通GitHub Pages服务</p>
-<h5 id="上传GitHub"><a href="#上传GitHub" class="headerlink" title="上传GitHub"></a>上传GitHub</h5><p>配置git</p>
+<h3 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h3><p>新建仓库，注意，该仓库<strong>必须</strong>命名为<code>username.github.io</code>，<code>username</code> 指你的GitHub账号，以该方式命名的仓库会开通GitHub Pages服务</p>
+<h3 id="上传GitHub"><a href="#上传GitHub" class="headerlink" title="上传GitHub"></a>上传GitHub</h3><p>配置git</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config -global user.name</span><br><span class="line">git config -global user.email</span><br></pre></td></tr></table></figure>
 
 <p>安装部署插件</p>
@@ -251,7 +286,7 @@
 <blockquote>
 <p>是<code>hexo deploy</code>的简写</p>
 </blockquote>
-<h3 id="访问站点"><a href="#访问站点" class="headerlink" title="访问站点"></a>访问站点</h3><p>部署完成后，可以在 <a href="https://username.github.io/" target="_blank" rel="noopener">https://username.github.io/</a> 上访问到自己的网页</p>
+<h2 id="访问站点"><a href="#访问站点" class="headerlink" title="访问站点"></a>访问站点</h2><p>部署完成后，可以在 <a href="https://username.github.io/" target="_blank" rel="noopener">https://username.github.io/</a> 上访问到自己的网页</p>
 
     </div>
 
@@ -273,7 +308,10 @@
     <a href="/2020/02/12/hello-world/" rel="prev" title="Hello World">
       <i class="fa fa-chevron-left"></i> Hello World
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/24/node-js%E5%AD%A6%E4%B9%A0-1/" rel="next" title="node.js学习_1">
+      node.js学习_1 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -333,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">1.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hexo"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo安装"><span class="nav-number">1.2.</span> <span class="nav-text">Hexo安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-js"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Git"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">Git</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建站"><span class="nav-number">1.3.</span> <span class="nav-text">建站</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化站点"><span class="nav-number">1.3.1.</span> <span class="nav-text">初始化站点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#站点文件夹简介"><span class="nav-number">1.3.2.</span> <span class="nav-text">站点文件夹简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#scaffolds"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">scaffolds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#source"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#themes"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">themes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#config-yml"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">_config.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package-json"><span class="nav-number">1.3.2.5.</span> <span class="nav-text">package.json</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署站点"><span class="nav-number">1.3.3.</span> <span class="nav-text">部署站点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GitHub-Pages服务"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">GitHub Pages服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#开启服务"><span class="nav-number">1.3.3.1.1.</span> <span class="nav-text">开启服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#上传GitHub"><span class="nav-number">1.3.3.1.2.</span> <span class="nav-text">上传GitHub</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问站点"><span class="nav-number">1.3.4.</span> <span class="nav-text">访问站点</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">1.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hexo"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo安装"><span class="nav-number">1.2.</span> <span class="nav-text">Hexo安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-js"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Git"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">Git</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo基本操作"><span class="nav-number">1.3.</span> <span class="nav-text">Hexo基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init"><span class="nav-number">1.3.1.</span> <span class="nav-text">init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new"><span class="nav-number">1.3.2.</span> <span class="nav-text">new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#generate"><span class="nav-number">1.3.3.</span> <span class="nav-text">generate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#server"><span class="nav-number">1.3.4.</span> <span class="nav-text">server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy"><span class="nav-number">1.3.5.</span> <span class="nav-text">deploy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clean"><span class="nav-number">1.3.6.</span> <span class="nav-text">clean</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建站"><span class="nav-number">2.</span> <span class="nav-text">建站</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化站点"><span class="nav-number">2.1.</span> <span class="nav-text">初始化站点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#站点文件夹简介"><span class="nav-number">2.2.</span> <span class="nav-text">站点文件夹简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scaffolds"><span class="nav-number">2.2.1.</span> <span class="nav-text">scaffolds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#source"><span class="nav-number">2.2.2.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#themes"><span class="nav-number">2.2.3.</span> <span class="nav-text">themes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#config-yml"><span class="nav-number">2.2.4.</span> <span class="nav-text">_config.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package-json"><span class="nav-number">2.2.5.</span> <span class="nav-text">package.json</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署站点"><span class="nav-number">2.3.</span> <span class="nav-text">部署站点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GitHub-Pages服务"><span class="nav-number">2.3.1.</span> <span class="nav-text">GitHub Pages服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启服务"><span class="nav-number">2.3.2.</span> <span class="nav-text">开启服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上传GitHub"><span class="nav-number">2.3.3.</span> <span class="nav-text">上传GitHub</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问站点"><span class="nav-number">2.4.</span> <span class="nav-text">访问站点</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -349,12 +387,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
