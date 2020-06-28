@@ -27,12 +27,25 @@
 <meta property="og:site_name" content="Table&#39;s Blog">
 <meta property="og:description" content="主要内容为如何在Flutter中构建布局，参照Flutter中文网">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/icons.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/layoutTree.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/pavlova-diagram.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/row-diagram.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/column-diagram.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result1.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result2.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result3.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-result.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-widget-tree.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-widget-tree2.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-result.jpg">
 <meta property="article:published_time" content="2020-05-04T14:52:40.000Z">
-<meta property="article:modified_time" content="2020-05-04T14:55:53.851Z">
+<meta property="article:modified_time" content="2020-05-15T15:56:37.149Z">
 <meta property="article:author" content="Table">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/icons.png">
 
 <link rel="canonical" href="http://table-the-cat.github.io/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/">
 
@@ -170,10 +183,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-04 22:52:40 / Modified: 22:55:53" itemprop="dateCreated datePublished" datetime="2020-05-04T22:52:40+08:00">2020-05-04</time>
+              <time title="Created: 2020-05-04 22:52:40" itemprop="dateCreated datePublished" datetime="2020-05-04T22:52:40+08:00">2020-05-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-15 23:56:37" itemprop="dateModified" datetime="2020-05-15T23:56:37+08:00">2020-05-15</time>
+              </span>
 
           
 
@@ -188,7 +207,120 @@
       
         <p>主要内容为如何在Flutter中构建布局，参照<a href="https://flutterchina.club/tutorials/layout/" target="_blank" rel="noopener">Flutter中文网</a></p>
 <a id="more"></a>
-<h1 id="在Flutter中构建布局"><a href="#在Flutter中构建布局" class="headerlink" title="在Flutter中构建布局"></a>在Flutter中构建布局</h1><h2 id="Flutter的布局方法"><a href="#Flutter的布局方法" class="headerlink" title="Flutter的布局方法"></a>Flutter的布局方法</h2>
+
+<h1 id="在Flutter中构建布局"><a href="#在Flutter中构建布局" class="headerlink" title="在Flutter中构建布局"></a>在Flutter中构建布局</h1><h2 id="Flutter的布局方法"><a href="#Flutter的布局方法" class="headerlink" title="Flutter的布局方法"></a>Flutter的布局方法</h2><blockquote>
+<p><strong>重点</strong></p>
+</blockquote>
+<pre><code>- Widget 是用于构建 UI 的类
+- Widget 用于布局和 UI 元素
+- 通过简单的 Widget 构建复杂的 Widget</code></pre><p>Flutter 布局机制的<strong>核心</strong>就是 <em>Widget</em>；<br>在 Flutter 中，几乎所有东西都是一个 Widget；</p>
+<blockquote>
+<p>您在Flutter应用中看到的图像、图标和文本都是widget。 甚至你看不到的东西也是widget，例如行（row）、列（column）以及用来排列、约束和对齐这些可见widget的网格（grid）</p>
+</blockquote>
+<h3 id="复杂的widget"><a href="#复杂的widget" class="headerlink" title="复杂的widget"></a>复杂的widget</h3><p>如下图，有三个图标，每个图标下有一个标签：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/icons.png" alt="Example"><br>该截图显示布局结构，表示一行包括3列，其中每列包含一个图标（icon）和一个标签</p>
+<blockquote>
+<p>如果希望显示布局情况，需要以下两步：<br>1.在<code>mian.dart</code>中声明引入包<code>import &#39;package:flutter/rendering.dart&#39;;</code><br>2.在主函数中声明<code>debugPaintSizeEnabled = true;</code></p>
+</blockquote>
+<p>上述 UI 的 widget 树如下：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/layoutTree.png" alt="widgetTree"></p>
+<h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>上图很容易理解，但是 Container 的存在可能令人疑惑</p>
+<h4 id="Container是什么"><a href="#Container是什么" class="headerlink" title="Container是什么"></a>Container是什么</h4><p><code>Container</code> 可让您创建矩形视觉元素。<code>Container</code> 可以装饰为一个<code>BoxDecoration</code>, 如 background、一个边框、或者一个阴影。 <code>Container</code> 也可以具有边距（margins）、填充(padding)和应用于其大小的约束(constraints)。另外， <code>Container</code>  可以使用矩阵在三维空间中对其进行变换</p>
+<h4 id="为什么要有Container"><a href="#为什么要有Container" class="headerlink" title="为什么要有Container"></a>为什么要有Container</h4><p>如果要添加<em>填充，边距，边框或背景色</em>，要使用 Container 来设置，<strong>只有 Container 有这些属性</strong></p>
+<blockquote>
+<p>在这个例子中，每个 Text 放置在 Container 中以添加边距。整个行也被放置在容器中以在行的周围添加填充</p>
+</blockquote>
+<h2 id="布局一个Widget"><a href="#布局一个Widget" class="headerlink" title="布局一个Widget"></a>布局一个Widget</h2><p>在 Flutter 中，在屏幕上放置文本，图标或图像大致需要以下几个步骤</p>
+<h4 id="选择一个widget保存该对象"><a href="#选择一个widget保存该对象" class="headerlink" title="选择一个widget保存该对象"></a>选择一个widget保存该对象</h4><p>从<em>布局 widget</em> 中进行选择，<em>布局 widget</em> 用于排列其它 widget 的 columns、rows、grids 和其它的 layouts。</p>
+<h4 id="创建一个widget来容纳可见对象"><a href="#创建一个widget来容纳可见对象" class="headerlink" title="创建一个widget来容纳可见对象"></a>创建一个widget来容纳可见对象</h4><p>例如，创建一个 <strong>Text widget</strong>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Text(<span class="string">'Hello World'</span>, style: <span class="keyword">new</span> TextStyle(fontSize: <span class="number">32.0</span>))</span><br></pre></td></tr></table></figure>
+
+<p>创建一个 <strong>Text widget</strong>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Image.asset(<span class="string">'foo/bar.jpg'</span>, fit: BoxFit.cover)</span><br></pre></td></tr></table></figure>
+
+<p>创建一个 <strong>Text widget</strong>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Icon(Icons.star, color: Colors.red[<span class="number">500</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="将可见widget添加到布局widget"><a href="#将可见widget添加到布局widget" class="headerlink" title="将可见widget添加到布局widget"></a>将可见widget添加到布局widget</h4><p><em>布局 widget</em> 都含有<code>child</code>属性（如<em>Container、Padding、Center</em>）或者<code>children</code>属性（如<em>Row、Column、Stack</em>），子 widget 会继承<em>布局 widget</em>的某些属性以实现布局效果</p>
+<p>将Text widget添加到Center widget：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Center(</span><br><span class="line">	child: <span class="keyword">new</span> Text(<span class="string">'Hello World'</span>, style: <span class="keyword">new</span> TextStyle(fontSize: <span class="number">32.0</span>))</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Center可以将内容水平和垂直居中</p>
+</blockquote>
+<h4 id="将布局widget添加到页面"><a href="#将布局widget添加到页面" class="headerlink" title="将布局widget添加到页面"></a>将布局widget添加到页面</h4><p><strong>Flutter 本身就是一个 widget</strong>，大部分widget都有一个<code>build()</code>方法。在应用程序的<code>build()</code>方法中创建会在设备上显示的widget。<br>对于Material应用程序，我们可以将<em>Center widget</em>直接添加到<code>body</code>属性中：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyHomePage</span>&gt; </span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	Widget build(BuildContext context) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">			appBar: <span class="keyword">new</span> appBar(</span><br><span class="line">				title: <span class="keyword">new</span> Text(widget.title),</span><br><span class="line">			),</span><br><span class="line">			body: <span class="keyword">new</span> Center(</span><br><span class="line">				child: <span class="keyword">new</span> Text(<span class="string">'Hello World'</span>, style: <span class="keyword">new</span> TextStyle(fontSize: <span class="number">32.0</span>)),</span><br><span class="line">			),</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>对于非Material应用程序，我们可以将Center widget添加到应用程序的<code>build()</code>方法中：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">	runApp(<span class="keyword">new</span> MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	Widget build(BuildContext context) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Container(</span><br><span class="line">			decoration: <span class="keyword">new</span> BoxDecoration(color: Colors.white),</span><br><span class="line">			child: <span class="keyword">new</span> Center(</span><br><span class="line">				<span class="string">'Hello World'</span>,</span><br><span class="line">				textDirection: TextDirection.ltr,</span><br><span class="line">				style: <span class="keyword">new</span> TextStyle(fontSize: <span class="number">40.0</span>, color: Colors.black87)),</span><br><span class="line">			),</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="color: red">注意：</span> 默认情况下，<strong>非Material应用程序不包含AppBar，标题或背景颜色</strong>。 如果要在非Material应用程序中使用这些功能，则必须自己构建它们</p>
+</blockquote>
+<h2 id="垂直-水平放置多个widget"><a href="#垂直-水平放置多个widget" class="headerlink" title="垂直/水平放置多个widget"></a>垂直/水平放置多个widget</h2><p>最常见的布局模式<br>1.使用行 <code>Row</code> <strong>水平</strong>排列widget；<br>2.使用列 <code>Column</code> <strong>垂直</strong>排列widget</p>
+<p>将一个 <em>widget 列表</em>添加到<code>Row</code>中以创建行，添加到<code>Column</code>中以创建列</p>
+<blockquote>
+<p>“添加”到<code>Row</code>/<code>Column</code>中，即将 widget 列表添加至<code>children</code>属性中</p>
+</blockquote>
+<p>每个孩子本身可以是一个<code>Row</code>或一个<code>Column</code>，依此类推<br>以下示例显示如何在行或列内嵌套行或列:<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/pavlova-diagram.png" alt="Row/Col Nest"></p>
+<h3 id="对齐widgets"><a href="#对齐widgets" class="headerlink" title="对齐widgets"></a>对齐widgets</h3><p>利用<code>mainAxisAlignment</code>和<code>crossAxisAlignment</code>属性来对其行/列的子项，这两个属性在<code>Row</code>/<code>Column</code>中的体现如下图：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/row-diagram.png" alt="row">)<img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/column-diagram.png" alt="col"><br><a href="https://api.flutter.dev/flutter/rendering/MainAxisAlignment-class.html" target="_blank" rel="noopener">MainAxisAlignment</a> 和 <a href="https://api.flutter.dev/flutter/rendering/CrossAxisAlignment-class.html" target="_blank" rel="noopener">CrossAxisAlignment</a> 类提供了很多控制对齐的常量</p>
+<h4 id="MainAxisAlignment中的常量"><a href="#MainAxisAlignment中的常量" class="headerlink" title="MainAxisAlignment中的常量"></a>MainAxisAlignment中的常量</h4><ul>
+<li>center：子项居中排列，<strong>子项之间没有间隔</strong></li>
+<li>end：子项靠近 main axis 的末尾排列</li>
+<li>spaceAround：子项间的间隔相等，且第一个子项之前和最后一个子项之后的间隔是子项间间隔的一半</li>
+<li>spaceBetween：子项间间隔相等，<strong>第一个子项之前和最后一个子项之后没有间隔</strong></li>
+<li>spaceEvenly：在每个子项之间，之前和之后均匀分配空闲的空间</li>
+<li>start：子项靠近 main axis 的起始排列</li>
+</ul>
+<h4 id="CrossAxisAlignment中的常量"><a href="#CrossAxisAlignment中的常量" class="headerlink" title="CrossAxisAlignment中的常量"></a>CrossAxisAlignment中的常量</h4><ul>
+<li>center：子项的中线与 cross axis 的<strong>中点</strong>对齐，<em>这是默认的对齐方式</em></li>
+<li>start：子项靠近 cross axis 的起始排列</li>
+<li>end：子项靠近 cross axis 的末尾排列</li>
+<li>stretch：要求子项填满整个 cross axis</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>一列三个图片以<code>spaceBetween</code>方式对齐<br>代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> MaterialApp(</span><br><span class="line">     title: <span class="string">'Test'</span>,</span><br><span class="line">     theme: <span class="keyword">new</span> ThemeData(primarySwatch: Colors.blue),</span><br><span class="line">     home: <span class="keyword">new</span> Scaffold(</span><br><span class="line">       appBar: <span class="keyword">new</span> AppBar(title: <span class="keyword">new</span> Text(<span class="string">'Alignment Test'</span>),),</span><br><span class="line">       body: <span class="keyword">new</span> Center(</span><br><span class="line">         child: <span class="keyword">new</span> Column(</span><br><span class="line">           mainAxisAlignment: MainAxisAlignment.spaceBetween,</span><br><span class="line">           children: &lt;Widget&gt;[</span><br><span class="line">             <span class="keyword">new</span> Image.asset(<span class="string">'images/01.jpg'</span>),</span><br><span class="line">             <span class="keyword">new</span> Image.asset(<span class="string">'images/02.jpg'</span>),</span><br><span class="line">             <span class="keyword">new</span> Image.asset(<span class="string">'images/03.jpg'</span>),</span><br><span class="line">           ],</span><br><span class="line">         ),</span><br><span class="line">       ),</span><br><span class="line">     ),</span><br><span class="line">   );</span><br></pre></td></tr></table></figure>
+<p>运行结果如图：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result1.jpg" alt="result1"></p>
+<blockquote>
+<p>可以看到：第一张图之前和最后一张图之后没有留下空间</p>
+</blockquote>
+</li>
+<li><p>一行三个图片以<code>spaceEvenly</code>方式对齐<br>代码与上方大同小异，运行结果如图：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result2.jpg" alt="result2"><br><span style="color: red">注意：</span>如果布局太大而不适合设备，则会如上图所示，在受影响的边缘出现黄黑条纹；<br>解决办法：使用 <em>Expanded widget</em>，将widget的大小设置为适和行或列</p>
+<blockquote>
+<p>后文会详细提及</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="调整widget"><a href="#调整widget" class="headerlink" title="调整widget"></a>调整widget</h3><p>如果想要一个 widget 占据其兄弟 widget 两倍的空间，我们可以将行/列的子项放入<em>Expanded widget<em>中，以控制*</em>沿主轴 (main axis) 方向*<em>的 widget 大小<br>*Expanded widget</em>有一个<code>flex</code>属性（整数），用于确定 widget 的弹性系数，*默认为 1</em></p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><ol>
+<li>创建一个由三个widget组成的行，其中中间widget的宽度是其他两个widget的两倍<br>代码：<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Column(</span><br><span class="line">   mainAxisAlignment: MainAxisAlignment.spaceBetween,</span><br><span class="line">   children: &lt;Widget&gt;[</span><br><span class="line">            <span class="keyword">new</span> Expanded(child: <span class="keyword">new</span> Image.asset(<span class="string">'images/EVA_01.jpg'</span>)),</span><br><span class="line">            <span class="keyword">new</span> Expanded(</span><br><span class="line">                  flex: <span class="number">2</span>,</span><br><span class="line">                  child: <span class="keyword">new</span> Image.asset(<span class="string">'images/EVA_02.jpg'</span>)</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">new</span> Expanded(child: <span class="keyword">new</span> Image.asset(<span class="string">'images/EVA_03.jpg'</span>)),</span><br><span class="line">          ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>结果如图：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/result3.jpg" alt="result3"></p>
+<ol start="2">
+<li>修复上一节中的示例：<br>将上一节代码中所有的<code>new Image.asset()</code>用<code>new Expanded()</code>包裹，如下：<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Expanded(child: <span class="keyword">new</span> Image.asset(<span class="string">'images/01.jpg'</span>)</span><br></pre></td></tr></table></figure>
+默认情况下，每个widget的弹性系数为1，将行的三分之一分配给每个小部件</li>
+</ol>
+<h3 id="聚集widgets"><a href="#聚集widgets" class="headerlink" title="聚集widgets"></a>聚集widgets</h3><p>默认情况下，行或列沿着其主轴会尽可能占用<strong>尽可能多的空间</strong>，但如果要将孩子紧密聚集在一起，可以将<code>mainAxisSize</code>设置为<code>MainAxisSize.min</code>，如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> packedRow = <span class="keyword">new</span> Row(</span><br><span class="line">     mainAxisSize: MainAxisSize.min,</span><br><span class="line">     children: [</span><br><span class="line">       <span class="keyword">new</span> Icon(Icons.star, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">       <span class="keyword">new</span> Icon(Icons.star, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">       <span class="keyword">new</span> Icon(Icons.star, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">       <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">       <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">     ],</span><br><span class="line">   );</span><br></pre></td></tr></table></figure>
+
+<h3 id="行-列的嵌套"><a href="#行-列的嵌套" class="headerlink" title="行/列的嵌套"></a>行/列的嵌套</h3><p><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-result.png" alt="nest1"><br>实现图中红框部分的布局</p>
+<ol>
+<li><p>构造<em>评分行</em>的widget树：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-widget-tree.png" alt="widgetTree"><br>根据该树编写代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ratingRow = <span class="keyword">new</span> Container(</span><br><span class="line">      padding: <span class="keyword">new</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">      child: <span class="keyword">new</span> Row(</span><br><span class="line">        mainAxisAlignment: MainAxisAlignment.spaceEvenly,</span><br><span class="line">        children: &lt;Widget&gt;[</span><br><span class="line">          <span class="keyword">new</span> Row(</span><br><span class="line">            mainAxisSize: MainAxisSize.min,</span><br><span class="line">            children: [</span><br><span class="line">              <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">              <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">              <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">              <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">              <span class="keyword">new</span> Icon(Icons.star, color: Colors.black),</span><br><span class="line">            ],</span><br><span class="line">          ),</span><br><span class="line">          <span class="keyword">new</span> Text(</span><br><span class="line">            <span class="string">'114514 Reviews'</span>,</span><br><span class="line">            style: <span class="keyword">new</span> TextStyle(</span><br><span class="line">              color: Colors.black,</span><br><span class="line">              fontWeight: FontWeight.w800,</span><br><span class="line">              fontFamily: <span class="string">'Roboto'</span>,</span><br><span class="line">              letterSpacing: <span class="number">0.5</span>,</span><br><span class="line">              fontSize: <span class="number">20.0</span>,</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure></li>
+<li><p>构造评分行下方<em>图标行</em>的widget树：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-widget-tree2.png" alt="widgetTree2"><br>根据该树编写代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> descTextStyle = <span class="keyword">new</span> TextStyle(</span><br><span class="line">      color: Colors.black,</span><br><span class="line">      fontWeight: FontWeight.w800,</span><br><span class="line">      fontFamily: <span class="string">'Roboto'</span>,</span><br><span class="line">      letterSpacing: <span class="number">0.5</span>,</span><br><span class="line">      fontSize: <span class="number">18.0</span>,</span><br><span class="line">      height: <span class="number">2.0</span>,</span><br><span class="line">    );<span class="comment">//定义默认Text样式</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> iconRow = DefaultTextStyle.merge(</span><br><span class="line">     <span class="comment">// DefaultTextStyle.merge可以允许您创建一个默认的文本样式</span></span><br><span class="line">     <span class="comment">//该样式会被其所有的子节点继承</span></span><br><span class="line">      style: descTextStyle,</span><br><span class="line">      child: <span class="keyword">new</span> Container(</span><br><span class="line">        padding: <span class="keyword">new</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">        child: <span class="keyword">new</span> Row(</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.spaceEvenly,</span><br><span class="line">          children: [</span><br><span class="line">            <span class="keyword">new</span> Column(</span><br><span class="line">              children: [</span><br><span class="line">                <span class="keyword">new</span> Icon(Icons.kitchen, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'PREP:'</span>),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'25 min'</span>),</span><br><span class="line">              ],</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">new</span> Column(</span><br><span class="line">              children: [</span><br><span class="line">                <span class="keyword">new</span> Icon(Icons.timer, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'COOK:'</span>),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'1 hr'</span>),</span><br><span class="line">              ],</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">new</span> Column(</span><br><span class="line">              children: [</span><br><span class="line">                <span class="keyword">new</span> Icon(Icons.restaurant, color: Colors.green[<span class="number">500</span>]),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'FEEDS:'</span>),</span><br><span class="line">                <span class="keyword">new</span> Text(<span class="string">'4-6'</span>),</span><br><span class="line">              ],</span><br><span class="line">            ),</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>整合<br>代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> MaterialApp(</span><br><span class="line">      title: <span class="string">'Test'</span>,</span><br><span class="line">      theme: <span class="keyword">new</span> ThemeData(primarySwatch: Colors.blue),</span><br><span class="line">      home: <span class="keyword">new</span> Scaffold(</span><br><span class="line">        appBar: <span class="keyword">new</span> AppBar(title: <span class="keyword">new</span> Text(<span class="string">'Alignment Test'</span>),),</span><br><span class="line">        body: <span class="keyword">new</span> Center(</span><br><span class="line">          child: <span class="keyword">new</span> Container(</span><br><span class="line">            child: <span class="keyword">new</span> Column(</span><br><span class="line">              children: &lt;Widget&gt;[</span><br><span class="line">                ratingRow,</span><br><span class="line">                iconRow,</span><br><span class="line">              ],</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<p>效果如图：<br><img src="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-Day2/nest-result.jpg" alt="nestResult"></p>
+</li>
+</ol>
+<h2 id="常用布局widgets"><a href="#常用布局widgets" class="headerlink" title="常用布局widgets"></a>常用布局widgets</h2><h3 id="标准widgets"><a href="#标准widgets" class="headerlink" title="标准widgets"></a>标准widgets</h3><blockquote>
+<p><a href="https://api.flutter.dev/flutter/widgets/widgets-library.html" target="_blank" rel="noopener"> widgets-library</a> 中的 widget</p>
+</blockquote>
+<h4 id="Container-1"><a href="#Container-1" class="headerlink" title="Container"></a>Container</h4><p>添加 padding, margins, borders, background color, 或将其他装饰添加到widget</p>
+<h4 id="GridView"><a href="#GridView" class="headerlink" title="GridView"></a>GridView</h4><h4 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h4><h4 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h4>
     </div>
 
     
@@ -210,7 +342,10 @@
     <a href="/2020/05/04/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Flutter%E5%BC%80%E5%8F%91-sp-FirstApp/" rel="prev" title="从零开始的Flutter开发_sp:FirstApp">
       <i class="fa fa-chevron-left"></i> 从零开始的Flutter开发_sp:FirstApp
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/05/%E4%BD%BF%E7%94%A8Hexo%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="使用Hexo发布博客添加图片的方法">
+      使用Hexo发布博客添加图片的方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -270,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在Flutter中构建布局"><span class="nav-number">1.</span> <span class="nav-text">在Flutter中构建布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter的布局方法"><span class="nav-number">1.1.</span> <span class="nav-text">Flutter的布局方法</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在Flutter中构建布局"><span class="nav-number">1.</span> <span class="nav-text">在Flutter中构建布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter的布局方法"><span class="nav-number">1.1.</span> <span class="nav-text">Flutter的布局方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂的widget"><span class="nav-number">1.1.1.</span> <span class="nav-text">复杂的widget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Container"><span class="nav-number">1.1.2.</span> <span class="nav-text">Container</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Container是什么"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Container是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要有Container"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">为什么要有Container</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#布局一个Widget"><span class="nav-number">1.2.</span> <span class="nav-text">布局一个Widget</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择一个widget保存该对象"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">选择一个widget保存该对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个widget来容纳可见对象"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">创建一个widget来容纳可见对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将可见widget添加到布局widget"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">将可见widget添加到布局widget</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将布局widget添加到页面"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">将布局widget添加到页面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直-水平放置多个widget"><span class="nav-number">1.3.</span> <span class="nav-text">垂直&#x2F;水平放置多个widget</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对齐widgets"><span class="nav-number">1.3.1.</span> <span class="nav-text">对齐widgets</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MainAxisAlignment中的常量"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">MainAxisAlignment中的常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CrossAxisAlignment中的常量"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">CrossAxisAlignment中的常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整widget"><span class="nav-number">1.3.2.</span> <span class="nav-text">调整widget</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚集widgets"><span class="nav-number">1.3.3.</span> <span class="nav-text">聚集widgets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行-列的嵌套"><span class="nav-number">1.3.4.</span> <span class="nav-text">行&#x2F;列的嵌套</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用布局widgets"><span class="nav-number">1.4.</span> <span class="nav-text">常用布局widgets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标准widgets"><span class="nav-number">1.4.1.</span> <span class="nav-text">标准widgets</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Container-1"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">Container</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GridView"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">GridView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ListView"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">ListView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stack"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">Stack</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -286,12 +421,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
