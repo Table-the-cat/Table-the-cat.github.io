@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://table-the-cat.github.io/2020/07/01/Skewed-associative-Caches/skewed-asso.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/07/01/Skewed-associative-Caches/inter-bank_dispersion.jpg">
 <meta property="article:published_time" content="2020-07-01T14:24:59.000Z">
-<meta property="article:modified_time" content="2020-07-02T12:48:49.611Z">
+<meta property="article:modified_time" content="2020-08-14T09:38:53.680Z">
 <meta property="article:author" content="Table">
 <meta property="article:tag" content="Computer Architecture">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-02 20:48:49" itemprop="dateModified" datetime="2020-07-02T20:48:49+08:00">2020-07-02</time>
+                <time title="Modified: 2020-08-14 17:38:53" itemprop="dateModified" datetime="2020-08-14T17:38:53+08:00">2020-08-14</time>
               </span>
 
           
@@ -232,9 +232,6 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="一点感想"><a href="#一点感想" class="headerlink" title="一点感想"></a>一点感想</h2><h3 id="细节的改动成就巨大的提升"><a href="#细节的改动成就巨大的提升" class="headerlink" title="细节的改动成就巨大的提升"></a>细节的改动成就巨大的提升</h3><p>  无论是对于本文提到的 skewed-associative cache ，还是在课上提到的 victim cache ，其实做的都是十分微小的改动：skewed-associative cache 改变映射函数(mapping function)，使得访存地址映射到不同存储体的不同行，从而降低了冲突概率；victim cache 择时在 cache 外再增加了一个小容量 cache，将最近被替换的行暂存在 victim cache。而这些微小的改动最终都对处理器的性能产生了不小的提升，颇有几分“四两拨千斤”的意味。</p>
-<h3 id="方向大于努力"><a href="#方向大于努力" class="headerlink" title="方向大于努力"></a>方向大于努力</h3><p>​    如同前文所述， skewed-associative cache 和 victim cache 都是“四两拨千斤”的典例，这些想法之所以能成功，究其原因，我认为还是他们找对了方法，抓住了问题的关键，同时可能还要附加一些“不走寻常路”的“灵光一现”。比如偏斜相联缓存，它是为了多路组相联缓存的冲突过多的问题而提出的，但是在偏斜相联缓存被提出之前，解决多路组相联冲突过多的问题在一定程度上已经有了“解决方案”——提高相联度，即增加组数。这种解决方案算不上好，但是<em>“够用”</em>（“够用”绝对能排上阻碍程序员进步的 Top 3）。后人在进行优化时也很自然地会顺着“增大关联度”这条思路来研究如何提高组相联缓存的性能，诚然，<em>“我之所以比别人看得远些，是因为我站在巨人的肩膀上”</em>，但很少有人想过，<strong>一旦攀上了巨人的肩膀，就只能看到巨人所能看到的方向了</strong>。<br>​    显然，偏斜相联缓存就是“跳下了巨人的肩膀”，走出了属于自己的一条路来。当然，它并不是“反其道而行之”，既然多路组相联缓存的性能受到冲突失效的影响，那么减少冲突失效显然是最直接、最有效的解决思路，以这个思路的为基础，同时一定程度上否定“增加相联度”这一方向，或许再加上那么一丁点儿的灵光一闪，偏斜相联缓存便得以横空出世。</p>
-<h3 id="详尽综合的考量"><a href="#详尽综合的考量" class="headerlink" title="详尽综合的考量"></a>详尽综合的考量</h3><p>​    </p>
 
     </div>
 
@@ -319,7 +316,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生原因"><span class="nav-number">1.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组相联-Cache-的硬件组织"><span class="nav-number">2.1.</span> <span class="nav-text">组相联 Cache 的硬件组织</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点微小的改动"><span class="nav-number">2.2.</span> <span class="nav-text">一点微小的改动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏斜函数的选择"><span class="nav-number">2.3.</span> <span class="nav-text">偏斜函数的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#均匀度"><span class="nav-number">2.3.1.</span> <span class="nav-text">均匀度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储体间的分散"><span class="nav-number">2.3.2.</span> <span class="nav-text">存储体间的分散</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储体内的分散"><span class="nav-number">2.3.3.</span> <span class="nav-text">存储体内的分散</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简单的硬件实现"><span class="nav-number">2.3.4.</span> <span class="nav-text">简单的硬件实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换策略的选择"><span class="nav-number">2.4.</span> <span class="nav-text">替换策略的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LRU-Least-Recently-Used"><span class="nav-number">2.4.1.</span> <span class="nav-text">LRU(Least Recently Used)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NRUNRW-Not-Recently-Used-Not-Recently-Written"><span class="nav-number">2.4.2.</span> <span class="nav-text">NRUNRW(Not Recently Used Not Recently Written)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一点感想"><span class="nav-number">3.</span> <span class="nav-text">一点感想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#细节的改动成就巨大的提升"><span class="nav-number">3.1.</span> <span class="nav-text">细节的改动成就巨大的提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方向大于努力"><span class="nav-number">3.2.</span> <span class="nav-text">方向大于努力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详尽综合的考量"><span class="nav-number">3.3.</span> <span class="nav-text">详尽综合的考量</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生原因"><span class="nav-number">1.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组相联-Cache-的硬件组织"><span class="nav-number">2.1.</span> <span class="nav-text">组相联 Cache 的硬件组织</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点微小的改动"><span class="nav-number">2.2.</span> <span class="nav-text">一点微小的改动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏斜函数的选择"><span class="nav-number">2.3.</span> <span class="nav-text">偏斜函数的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#均匀度"><span class="nav-number">2.3.1.</span> <span class="nav-text">均匀度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储体间的分散"><span class="nav-number">2.3.2.</span> <span class="nav-text">存储体间的分散</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储体内的分散"><span class="nav-number">2.3.3.</span> <span class="nav-text">存储体内的分散</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简单的硬件实现"><span class="nav-number">2.3.4.</span> <span class="nav-text">简单的硬件实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换策略的选择"><span class="nav-number">2.4.</span> <span class="nav-text">替换策略的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LRU-Least-Recently-Used"><span class="nav-number">2.4.1.</span> <span class="nav-text">LRU(Least Recently Used)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NRUNRW-Not-Recently-Used-Not-Recently-Written"><span class="nav-number">2.4.2.</span> <span class="nav-text">NRUNRW(Not Recently Used Not Recently Written)</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
