@@ -142,6 +142,232 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/08/14/fopen%E5%8F%82%E6%95%B0wb+%E5%92%8Crb+%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/14/fopen%E5%8F%82%E6%95%B0wb+%E5%92%8Crb+%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">fopen参数wb+和rb+的区别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-14 16:44:18 / Modified: 17:37:09" itemprop="dateCreated datePublished" datetime="2020-08-14T16:44:18+08:00">2020-08-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>做课设的时候，需要用到 C 的文件操作，本意是想实现文件的<strong>覆盖写入</strong>（即修改文件内容但不改变文件大小），如下：</p>
+<blockquote>
+<p>原本文件内容为 abcdefg，现在第3位后写入123，写入后预期文件内容为abc123g</p>
+</blockquote>
+<p>但实际做出来的效果是<em>每次写完后文件大小都会改变</em>，恰巧我写的是二进制文件而不是文本文件（而且大小有10M），不好直接打开文件查看问题</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>调试后发现文件大小改变是因为最后一次写操作之后的内容都会丢失，此时考虑到是写操作的方式有问题，而写操作的方式是由函数<code>fopen</code>决定的</p>
+<p>先来看看<code>fopen</code>的函数原型</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILE *<span class="title">fopen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">const</span> <span class="keyword">char</span> *mode)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数如下：</p>
+<ul>
+<li><em>filename</em>：字符串，包含了要打开的文件名称；</li>
+<li><em>mode</em>：字符串，包含了文件访问模式；</li>
+</ul>
+<p>返回值为文件指针，在不同模式下的初始值不同</p>
+<h2 id="问题的关键"><a href="#问题的关键" class="headerlink" title="问题的关键"></a>问题的关键</h2><p>显然，需要在意的是参数<strong>mode</strong>，其可选项如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>字符串</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td align="left">以只读方式打开文件，该文件必须存在。</td>
+</tr>
+<tr>
+<td>r+</td>
+<td align="left">以读/写方式打开文件，该文件必须存在。</td>
+</tr>
+<tr>
+<td>rb+</td>
+<td align="left">以读/写方式打开一个二进制文件，只允许读/写数据。</td>
+</tr>
+<tr>
+<td>rt+</td>
+<td align="left">以读/写方式打开一个文本文件，允许读和写。</td>
+</tr>
+<tr>
+<td>w</td>
+<td align="left">打开只写文件，若文件存在则文件长度清为零，即该文件内容会消失；若文件不存在则创建该文件。</td>
+</tr>
+<tr>
+<td>w+</td>
+<td align="left">打开可读/写文件，若文件存在则文件长度清为零，即该文件内容会消失；若文件不存在则创建该文件。</td>
+</tr>
+<tr>
+<td>a</td>
+<td align="left">以附加的方式打开只写文件。若文件不存在，则会创建该文件；如果文件存在，则写入的数据会被加到文件尾后，即文件原先的内容会被保留（EOF 符保留）。</td>
+</tr>
+<tr>
+<td>a+</td>
+<td align="left">以附加方式打开可读/写的文件。若文件不存在，则会创建该文件，如果文件存在，则写入的数据会被加到文件尾后，即文件原先的内容会被保留（EOF符不保留）。</td>
+</tr>
+<tr>
+<td>wb</td>
+<td align="left">以只写方式打开或新建一个二进制文件，只允许写数据。</td>
+</tr>
+<tr>
+<td>wb+</td>
+<td align="left">以读/写方式打开或新建一个二进制文件，允许读和写。</td>
+</tr>
+<tr>
+<td>wt+</td>
+<td align="left">以读/写方式打开或新建一个文本文件，允许读和写。</td>
+</tr>
+<tr>
+<td>at+</td>
+<td align="left">以读/写方式打开一个文本文件，允许读或在文本末追加数据。</td>
+</tr>
+<tr>
+<td>ab+</td>
+<td align="left">以读/写方式打开一个二进制文件，允许读或在文件末追加数据。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>From百度百科</p>
+</blockquote>
+<p>我最初选择的参数是<code>wb+</code>，会出现上一节所提到的文件大小改变的问题，而后来选择<code>rb+</code>则不会；</p>
+<p>从表格上看，这二者的功能描述并无太大区别，其实表格内容省略了一些说明，因为<code>wb+</code>本身应当是<code>w+</code>的<em>二进制文件版</em>，所以其完整说明应该参照<code>w+</code>来补全，得到如下区别：</p>
+<ul>
+<li><code>wb+</code>无论文件是否存在都可以打开成功，<code>rb+</code>必须要文件存在时才能打开成功；</li>
+<li>若文件存在，<code>wb+</code><strong>将文件长度清为零，重新写入数据</strong>，<code>rb+</code><strong>覆盖写入文件</strong>；</li>
+</ul>
+<p>现在可以知道，文件大小改变是因为每次打开文件后，原文件内容就被清除了，只剩下最近一次写入操作的内容；</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>关于<em>修改指定位置的文件内容</em>，需要搭配函数<code>fseek</code>一起使用，该函数的作用是调整文件指针的位置，函数原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fseek</span><span class="params">(FILE *stream, <span class="keyword">long</span> offset, <span class="keyword">int</span> fromwhere)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li>*<em>stream</em>：文件指针</li>
+<li><em>offset</em>：相对于基址的偏移量，基址由后一个参数决定</li>
+<li><em>fromwhere</em>：基址，有三种基础选项：<code>SEEK_SET</code>——文件开头，<code>SEEK_CUR</code>——文件指针当前指向位置，<code>CUR_END</code>——文件末尾</li>
+</ul>
+<p>写入操作应当使用<code>fwrite</code>而不是<code>fputs</code>/<code>fputc</code>，因为<code>fwrite</code>是<strong>以二进制格式向文件写入数据块</strong>，而<code>fputs</code>/<code>fputc</code>是将<strong>字符串/字符</strong>输入到文件，在对二进制文件进行操作时不应当使用；</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/07/01/Skewed-associative-Caches/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/01/Skewed-associative-Caches/" class="post-title-link" itemprop="url">Skewed-associative_Caches</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-01 22:24:59" itemprop="dateCreated datePublished" datetime="2020-07-01T22:24:59+08:00">2020-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-02 20:48:49" itemprop="dateModified" datetime="2020-07-02T20:48:49+08:00">2020-07-02</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考几篇论文后总结得出的关于偏斜相联缓存的一些基础知识</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/01/Skewed-associative-Caches/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -173,7 +399,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-28 11:25:14" itemprop="dateModified" datetime="2020-06-28T11:25:14+08:00">2020-06-28</time>
+                <time title="Modified: 2020-06-29 20:45:48" itemprop="dateModified" datetime="2020-06-29T20:45:48+08:00">2020-06-29</time>
               </span>
 
           
@@ -245,7 +471,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-28 11:25:57" itemprop="dateModified" datetime="2020-06-28T11:25:57+08:00">2020-06-28</time>
+                <time title="Modified: 2020-06-29 10:52:00" itemprop="dateModified" datetime="2020-06-29T10:52:00+08:00">2020-06-29</time>
               </span>
 
           
@@ -709,150 +935,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/02/24/node-js%E5%AD%A6%E4%B9%A0-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
-      <meta itemprop="name" content="Table">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Table's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/24/node-js%E5%AD%A6%E4%B9%A0-1/" class="post-title-link" itemprop="url">node.js学习_1</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-24 22:20:39" itemprop="dateCreated datePublished" datetime="2020-02-24T22:20:39+08:00">2020-02-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-25 22:19:05" itemprop="dateModified" datetime="2020-02-25T22:19:05+08:00">2020-02-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>node.js 学习的第一篇，主要介绍node.js的一些基本概念</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/24/node-js%E5%AD%A6%E4%B9%A0-1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/02/20/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
-      <meta itemprop="name" content="Table">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Table's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/20/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">基于Hexo和GitHub搭建个人博客</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-20 16:38:33" itemprop="dateCreated datePublished" datetime="2020-02-20T16:38:33+08:00">2020-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-05 00:01:45" itemprop="dateModified" datetime="2020-05-05T00:01:45+08:00">2020-05-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章将介绍如何使用Hexo与GitHub搭建自己的博客</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/20/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -925,12 +1007,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

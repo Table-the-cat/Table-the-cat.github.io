@@ -28,7 +28,7 @@
 <meta property="og:description" content="关于在博客中添加图片遇到的坑">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-04T16:04:46.000Z">
-<meta property="article:modified_time" content="2020-06-28T03:25:57.711Z">
+<meta property="article:modified_time" content="2020-06-29T02:52:00.524Z">
 <meta property="article:author" content="Table">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
@@ -177,7 +177,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-28 11:25:57" itemprop="dateModified" datetime="2020-06-28T11:25:57+08:00">2020-06-28</time>
+                <time title="Modified: 2020-06-29 10:52:00" itemprop="dateModified" datetime="2020-06-29T10:52:00+08:00">2020-06-29</time>
               </span>
 
           
@@ -195,8 +195,11 @@
 <a id="more"></a>
 <h1 id="两种方法"><a href="#两种方法" class="headerlink" title="两种方法"></a>两种方法</h1><h2 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h2><p>网上大部分的教程都是这种方法，即使用<code>hexo-asset-image</code>插件</p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>首先了解Markdown中插入图片的语法格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![alt](&#x2F;path&#x2F;image.jpg)</span><br></pre></td></tr></table></figure>
-<p>这里的路径是<strong>图片文件在电脑内保存的相对路径</strong>，<code>hexo-asset-image</code>插件的作用就是将图片添加到博客源文件中，并重新设置好路径。在发布时，图片也会上传至Github仓库，这时网页便可以从GitHub仓库中链接到图片。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![alt](.&#x2F;path&#x2F;image.jpg)</span><br><span class="line">or</span><br><span class="line">![alt](path&#x2F;image.jpg)</span><br></pre></td></tr></table></figure>
+<p>这里的路径是<strong>图片文件在电脑内保存的相对路径</strong>，<code>hexo-asset-image</code>插件的作用就是将图片添加到博客源文件中，并重新设置好路径。在发布时，图片也会上传至GitHub仓库，这时网页便可以从GitHub仓库中链接到图片。</p>
+<blockquote>
+<p>注意<strong>不要</strong>使用<strong>反斜杠</strong>来划分，虽然在某些 Markdown 编辑器中（比如Typora）使用反斜杠的路径会被识别，但是在网页中它似乎并不能正确解析路径——结果就是图片在本地编辑器中可以显示，但在网页中，无论是 <code>localhost</code>上的预览页面还是真正的博客页面中，都无法显示</p>
+</blockquote>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>大致分为三步</p>
 <h4 id="修改-congif-yml"><a href="#修改-congif-yml" class="headerlink" title="修改_congif.yml"></a>修改_congif.yml</h4><p>修改主页配置文件<code>_config.yml</code>中的选项</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: ture</span><br></pre></td></tr></table></figure>
@@ -309,12 +312,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

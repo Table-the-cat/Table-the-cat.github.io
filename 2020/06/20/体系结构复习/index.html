@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap2-branch.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E6%B6%88%E9%99%A4%E7%93%B6%E9%A2%88.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP.jpg">
-<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%5Cchap3-T%E6%B5%81%E6%B0%B4.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-T%E6%B5%81%E6%B0%B4.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP2.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-%E5%AE%9A%E5%90%91.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-branch.jpg">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-btb2.jpg">
 <meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%5Cchap5-TA.jpg">
 <meta property="article:published_time" content="2020-06-20T12:09:19.000Z">
-<meta property="article:modified_time" content="2020-06-28T03:25:14.360Z">
+<meta property="article:modified_time" content="2020-06-29T12:45:48.609Z">
 <meta property="article:author" content="Table">
 <meta property="article:tag" content="review">
 <meta name="twitter:card" content="summary">
@@ -195,7 +195,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-28 11:25:14" itemprop="dateModified" datetime="2020-06-28T11:25:14+08:00">2020-06-28</time>
+                <time title="Modified: 2020-06-29 20:45:48" itemprop="dateModified" datetime="2020-06-29T20:45:48+08:00">2020-06-29</time>
               </span>
 
           
@@ -395,14 +395,14 @@
 <h4 id="6-顺序-乱序流水线"><a href="#6-顺序-乱序流水线" class="headerlink" title="6.顺序/乱序流水线"></a>6.顺序/乱序流水线</h4><p>按<em>输出端任务流出顺序</em>与<em>输入端任务流入顺序</em>是否相同划分</p>
 <h2 id="流水线性能分析"><a href="#流水线性能分析" class="headerlink" title="流水线性能分析"></a>流水线性能分析</h2><h3 id="吞吐率"><a href="#吞吐率" class="headerlink" title="吞吐率"></a>吞吐率</h3><p>单位时间内流水线完成的任务数（指令数）</p>
 <ul>
-<li><p>最大吞吐率TPmax：流水线达到稳定状态后的吞吐率</p>
+<li><p>最大吞吐率TP<sub>max</sub>：流水线达到稳定状态后的吞吐率</p>
 <blockquote>
 <p>稳定状态：流水线各段都处于忙碌状态</p>
 </blockquote>
 </li>
-<li><p>若流水线各段时间相等，均为Δt0，则有：<br> <em>TPmax = 1 / Δt0</em></p>
+<li><p>若流水线各段时间相等，均为Δt0，则有：<br> <em>TP<sub>max</sub> = 1 / Δt0</em></p>
 </li>
-<li><p>若各段时间不等，为Δti，则有：<br> <em>TPmax = 1 / max(Δti)</em></p>
+<li><p>若各段时间不等，为Δti，则有：<br> <em>TP<sub>max</sub> = 1 / max(Δti)</em></p>
 </li>
 </ul>
 <p>最慢的流水段成为流水线的<em>瓶颈</em>；<br>消除流水线瓶颈的方法：<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E6%B6%88%E9%99%A4%E7%93%B6%E9%A2%88.jpg" alt="消除瓶颈"></p>
@@ -418,10 +418,10 @@
 </ul>
 <p><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP.jpg" alt="TP"><br>可知：</p>
 <ul>
-<li>TP &lt; TPmax</li>
-<li>当** n &gt;&gt; m **时，TP ≈ TPmax</li>
+<li>TP &lt; TP<sub>max</sub></li>
+<li>当<em> n &gt;&gt; m </em>时，TP ≈ TP<sub>max</sub></li>
 </ul>
-<p><strong>各段时间不等</strong>时，TP如下：<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%5Cchap3-T%E6%B5%81%E6%B0%B4.jpg" alt="TP"><br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP2.jpg" alt="TP"></p>
+<p><strong>各段时间不等</strong>时，TP如下：<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-T%E6%B5%81%E6%B0%B4.jpg" alt="TP"><br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP2.jpg" alt="TP"></p>
 <h3 id="加速比"><a href="#加速比" class="headerlink" title="加速比"></a>加速比</h3><p>流水线速度与<strong>等功能</strong>的非流水线的速度之比<br><em>S = T非流水 / T流水</em><br>令流水段数 m，任务数 n</p>
 <ul>
 <li>各段时间相等，为 Δt0，则：<br> T非流水 = n×m×Δt0<br> T流水 = m×Δt0 + (n-1)×Δt0<br> S = m / (1 + (m - 1) /n)<blockquote>
@@ -967,7 +967,7 @@
 <li>减少容量失效——多级缓存，改善替换算法</li>
 <li>减少冲突失效——提高相联度，使用 Hash 算法使索引更加随机，使用 Victim Cache 暂时保存最近被替换的块</li>
 </ol>
-<h3 id="Victim-Cache"><a href="#Victim-Cache" class="headerlink" title="Victim Cache"></a>Victim Cache</h3><p>![victim cache](/体系结构复习/victim cache.jpg)<br>增加一个小容量 Cache （4~8个块），将刚刚被替换的块暂存于此<br>原理：</p>
+<h3 id="Victim-Cache"><a href="#Victim-Cache" class="headerlink" title="Victim Cache"></a>Victim Cache</h3><p>![victim cache](./体系结构复习/victim cache.jpg)<br>增加一个小容量 Cache （4~8个块），将刚刚被替换的块暂存于此<br>原理：</p>
 <ul>
 <li>直接相联的 Cache 冲突率很高</li>
 <li>被替换出去的块很有可能被重新访问</li>
@@ -1133,7 +1133,10 @@
     <a href="/2020/05/05/%E4%BD%BF%E7%94%A8Hexo%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="使用Hexo发布博客添加图片的方法">
       <i class="fa fa-chevron-left"></i> 使用Hexo发布博客添加图片的方法
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/01/Skewed-associative-Caches/" rel="next" title="Skewed-associative_Caches">
+      Skewed-associative_Caches <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -1209,12 +1212,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
