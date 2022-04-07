@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"table-the-cat.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"left","width":300,"display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机体系结构复习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="体系结构复习">
+<meta property="og:url" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Table&#39;s Blog">
+<meta property="og:description" content="计算机体系结构复习笔记">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Amdahl.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/MIPS32-1.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/MemOnly.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Acc.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Stack.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Regs.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap2-branch.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E6%B6%88%E9%99%A4%E7%93%B6%E9%A2%88.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-T%E6%B5%81%E6%B0%B4.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP2.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-%E5%AE%9A%E5%90%91.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-branch.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-bht.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-btb.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-btb2.jpg">
+<meta property="og:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%5Cchap5-TA.jpg">
+<meta property="article:published_time" content="2020-06-20T12:09:19.000Z">
+<meta property="article:modified_time" content="2020-06-29T12:45:48.609Z">
+<meta property="article:author" content="Table">
+<meta property="article:tag" content="review">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Amdahl.jpg">
+
+<link rel="canonical" href="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>体系结构复习 | Table's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Table's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nothing here</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          体系结构复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-20 20:09:19" itemprop="dateCreated datePublished" datetime="2020-06-20T20:09:19+08:00">2020-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-29 20:45:48" itemprop="dateModified" datetime="2020-06-29T20:45:48+08:00">2020-06-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>计算机体系结构复习笔记</p>
+<a id="more"></a>
+<h1 id="1-体系结构的基本概念"><a href="#1-体系结构的基本概念" class="headerlink" title="1-体系结构的基本概念"></a>1-体系结构的基本概念</h1><h2 id="计算机体系结构的基本概念"><a href="#计算机体系结构的基本概念" class="headerlink" title="计算机体系结构的基本概念"></a>计算机体系结构的基本概念</h2><h3 id="计算机系统中的层次概念"><a href="#计算机系统中的层次概念" class="headerlink" title="计算机系统中的层次概念"></a>计算机系统中的层次概念</h3><p>层次由低到高排序</p>
+<ul>
+<li>M0：微程序机器级，该级的机器语言为<em>微指令集</em>，微指令编写的微程序一般直接由硬件解释实现</li>
+<li>M1：传统机器级，该级的机器语言为<strong>该机器</strong>上的指令集</li>
+<li>M2：<strong>操作系统</strong>虚拟机，是<strong>计算机软硬件的交界面</strong>，此层次之下为硬件层次，此层次之上为软件层次</li>
+<li>M3：<strong>汇编语言</strong>虚拟机，该级的机器语言为汇编语言，<blockquote>
+<p>M0、M1、M2通常使用<strong>解释</strong>(interpretation)的方法实现，而M3及以上的层次通常使用<strong>翻译</strong>(translation)实现</p>
+</blockquote>
+</li>
+<li>M4：<strong>高级语言</strong>虚拟机，该级的机器语言是各种高级语言，高级语言的翻译过程即为<strong>编译</strong>(compile)</li>
+<li>M5：<strong>应用语言</strong>虚拟机，为是计算机满足某种特殊需求而专门设计</li>
+</ul>
+<h3 id="计算机体系结构"><a href="#计算机体系结构" class="headerlink" title="计算机体系结构"></a>计算机体系结构</h3><p><em><em>定义：（机器语言的）程序员所看到的计算机的属性，即</em>概念性结构<em>与</em>功能特性</em> **</p>
+<blockquote>
+<p>该定义由 Amdahl 提出<br>所谓的“属性”是指</p>
+<ul>
+<li>数据表示</li>
+<li>寻址规则</li>
+<li>寄存器定义</li>
+<li>指令集</li>
+<li>中断系统</li>
+<li>机器工作状态的定义和切换</li>
+<li>存储系统</li>
+<li>信息保护</li>
+<li>I/O结构</li>
+</ul>
+</blockquote>
+<p><strong>广义定义</strong>：</p>
+<ul>
+<li>指令集架构</li>
+<li>计算机组织——计算机系统的逻辑实现</li>
+<li>计算机实现——计算机系统的物理实现</li>
+</ul>
+<h3 id="计算机组织和计算机实现技术"><a href="#计算机组织和计算机实现技术" class="headerlink" title="计算机组织和计算机实现技术"></a>计算机组织和计算机实现技术</h3><p>计算机组成：计算机系统的<strong>逻辑实现</strong></p>
+<ul>
+<li>包含物理机器级中的数据流和控制流的组成以及逻辑设计</li>
+<li>着眼于：物理机器级内各事件的排序方式、控制方式以及各部件之间的联系</li>
+</ul>
+<p>计算机实现：计算机系统的<strong>物理实现</strong></p>
+<ul>
+<li>包含处理机、主存等部件的物理结构，器件的集成度和速度，模块、插件、底板的划分与连接等</li>
+<li>着眼于：器件技术、微组装技术</li>
+</ul>
+<p><strong>一种体系结构可以有多种组成，一种组成可以有多种物理实现</strong></p>
+<h2 id="定量分析技术"><a href="#定量分析技术" class="headerlink" title="定量分析技术"></a>定量分析技术</h2><p>用于衡量计算机性能的方法</p>
+<h3 id="性能评测"><a href="#性能评测" class="headerlink" title="性能评测"></a>性能评测</h3><blockquote>
+<p>性能之比是响应时间的反比</p>
+</blockquote>
+<p>性能x / 性能y = 响应时间y / 响应时间x</p>
+<h3 id="测试程序"><a href="#测试程序" class="headerlink" title="测试程序"></a>测试程序</h3><p>用于测试计算机性能的程序:</p>
+<ol>
+<li>实际应用程序: 最可靠的方法</li>
+<li>修正的(脚本化的)程序: 通过修正实际应用程序的<strong>部分代码</strong>或通过<strong>脚本描述</strong>来模拟实际应用</li>
+<li>核心测试程序: 真实程序中提取的较短但很关键的代码</li>
+<li>小测试程序: 几十行的, 具有特定目的的代码</li>
+<li>合成测试程序: 基本思想与设计核心测试程序相同</li>
+</ol>
+<p>实际应用上，使用<strong>Benchmark Suites</strong>（测试程序组件）来测试机器性能，它是一组各方面都具有代表性的测试程序</p>
+<blockquote>
+<p>常见的如 SPEC</p>
+</blockquote>
+<h3 id="性能设计和评测的基本原则"><a href="#性能设计和评测的基本原则" class="headerlink" title="性能设计和评测的基本原则"></a>性能设计和评测的基本原则</h3><ol>
+<li><p>大概率事件优先<br>最重要和最常用的原则: 对于大概率事件,赋予它优先的<strong>处理权</strong>和<strong>资源使用权</strong></p>
+</li>
+<li><p>Amdahl 定律<br>加快某部件执行速度所获得的<em>系统性能</em>加速比, 受限于<strong>该部件在系统中所占的重要性</strong><br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Amdahl.jpg" alt="Amdahl"></p>
+</li>
+<li><p>程序的局部性原理</p>
+<ul>
+<li>时间局部性</li>
+<li>空间局部性</li>
+</ul>
+</li>
+</ol>
+<h3 id="CPU的性能"><a href="#CPU的性能" class="headerlink" title="CPU的性能"></a>CPU的性能</h3><p>CPU时间 = 总时钟周期数 / 时钟频率<br>CPI = 总时钟周期数 / IC</p>
+<p>总CPU时间 = CPI * IC / 时钟频率</p>
+<blockquote>
+<p>时钟频率: 反映了计算机实现技术\生产工艺和计算机组织<br>CPI: 反映了计算机实现技术\计算机指令集的结构和计算机组织<br>IC: 指令条数, 反映了计算机指令集的结构和编译技术</p>
+</blockquote>
+<p>多组数据综合比较性能时，使用平均值（Mean）：</p>
+<ul>
+<li>Use AM(Arithmetic Mean) for times;</li>
+<li>Use HM(Harmonic Mean) for rates; </li>
+<li>Use GM(Geometric Mean) for ratios;</li>
+<li><strong>Best of all, use unnormalized numbers to compute time</strong></li>
+</ul>
+<h1 id="2-指令集结构-ISA"><a href="#2-指令集结构-ISA" class="headerlink" title="2-指令集结构-ISA"></a>2-指令集结构-ISA</h1><h2 id="指令集是软件和硬件的接口"><a href="#指令集是软件和硬件的接口" class="headerlink" title="指令集是软件和硬件的接口"></a>指令集是软件和硬件的接口</h2><ul>
+<li>功能定义：指令集实现的功能</li>
+<li>精确描述：上层程序如何调用这些功能<br>ISA 只定义功能，不关心功能如何实现（功能的实现依靠微指令架构）</li>
+</ul>
+<h2 id="冯氏模型"><a href="#冯氏模型" class="headerlink" title="冯氏模型"></a>冯氏模型</h2><p>大部分现代 ISA 遵循的模型</p>
+<h3 id="关键——Program-Counter-PC"><a href="#关键——Program-Counter-PC" class="headerlink" title="关键——Program Counter(PC)"></a>关键——Program Counter(PC)</h3><p>PC 决定了指令的执行顺序；<br>执行顺序和存储机构决定指令能否正确执行</p>
+<h2 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h2><h3 id="长度"><a href="#长度" class="headerlink" title="长度"></a>长度</h3><ol>
+<li>固定长度：代码密度(Code Density)低</li>
+<li>可变长度：代码密度高</li>
+<li>以上两种方法的折中：使用两种长度<blockquote>
+<p>代码密度：同样的一段代码在编译之后占用的空间，<strong>占用空间越小，代码密度越高</strong></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><ul>
+<li>简单的编码可以简化译码器的实现</li>
+<li>复杂的编码可以提高代码密度</li>
+</ul>
+<h3 id="MIPS指令格式"><a href="#MIPS指令格式" class="headerlink" title="MIPS指令格式"></a>MIPS指令格式</h3><blockquote>
+<p>以 MIPS32 为例</p>
+</blockquote>
+<h4 id="长度-1"><a href="#长度-1" class="headerlink" title="长度"></a>长度</h4><p>32 bits</p>
+<h4 id="编码-1"><a href="#编码-1" class="headerlink" title="编码"></a>编码</h4><p>三种格式， 简单编码<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/MIPS32-1.jpg" alt="format"></p>
+<ul>
+<li><p>R-Type：寄存器类型<br> Op(6)：6位操作码<br> Rs(5)：源寄存器编号<br> Rt(5)：源寄存器编号<br> Rd(5)：目标寄存器编号<br> Sh(5)：移位的位数（在移位操作时用）<br> Func(6)：功能码</p>
+<blockquote>
+<p>指令的功能由操作码和功能码共同决定</p>
+</blockquote>
+</li>
+<li><p>I-Type：立即数类型<br> Op(6)：6位操作码<br> Rs(5)：源寄存器编号<br> Rt(5)：目标寄存器编号<br> Immed(16)：立即数</p>
+</li>
+<li><p>J-Type：跳转类型<br> Op(6)：6位操作码<br> Target(26)：跳转目标<br> <strong>无条件跳转</strong><br> New PC = { (PC + 4)[31..28], Target, 2’b00}</p>
+<blockquote>
+<p>将PC + 4的高四位与 Target 值合并，末位补2个0 <em>(4 + 26 + 2 = 32)</em></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>操作类型由操作码编码<br>More operation types <strong>!=</strong> Better ISA</p>
+<h3 id="操作数模型"><a href="#操作数模型" class="headerlink" title="操作数模型"></a>操作数模型</h3><blockquote>
+<p>以完成功能 <em>A = B + C</em> 为例</p>
+</blockquote>
+<ol>
+<li><p><strong>Memory Only</strong><br>add A, B, C        ;mem[A] = mem[B] + mem[C]<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/MemOnly.jpg" alt="format"></p>
+</li>
+<li><p><strong>Accumulator</strong><br>load B          ;ACC = mem[B]<br>add C           ;ACC = ACC + mem[C]<br>store A         ;mem[A] = ACC<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Acc.jpg" alt="format"></p>
+</li>
+<li><p><strong>Stack</strong><br>push B<br>push C<br>add<br>pop A<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Stack.jpg" alt="format"></p>
+</li>
+<li><p><strong>Registers</strong></p>
+<ul>
+<li><p>通用寄存器类型<br>load R1, B<br>add R1, C<br>store R1, A</p>
+</li>
+<li><p>Load-store 类型<em>（只能通过load/store指令访存）</em><br>load R1, B<br>load R2, C<br>add R1, R1, R2<br>store R1, A<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/Regs.jpg" alt="format"></p>
+</li>
+</ul>
+<h4 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h4><ul>
+<li>static code size：程序对应的机器指令数<br>指令数：load-store &gt; register &gt; memory only</li>
+<li>data memory traffic：访存次数<br>访存次数：load-store &lt; register &lt; memory only</li>
+<li>instruction latency：指令延迟<br>延迟时间：load-store &lt; register &lt; memory only</li>
+</ul>
+<h4 id="寻址模式"><a href="#寻址模式" class="headerlink" title="寻址模式"></a>寻址模式</h4><p>MIPS只支持 <strong>寄存器基址 + 立即数偏移量</strong> 的寻址方式<br>原因：80/20法则</p>
+</li>
+</ol>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h2 id="控制"><a href="#控制" class="headerlink" title="控制"></a>控制</h2><p><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap2-branch.jpg" alt="branch"></p>
+<h1 id="3-流水线技术"><a href="#3-流水线技术" class="headerlink" title="3-流水线技术"></a>3-流水线技术</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>将一重复的时序过程分解为若干子过程，每个子过程都有可能有效地在其<strong>专用功能段</strong>上与其他子过程<strong>同时执行</strong>，这种技术称为流水技术</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>在不缩短单个任务响应时间的情况下，提高系统吞吐率</li>
+<li>流水线速度受限于<strong>最慢流水段</strong>的速度，故各流水段时间应该尽量相等，通常为1个时间周期</li>
+<li>流水线需要经过一定的时间才能稳定（即流水线的<em>填充</em>）</li>
+<li>流水线中多任务并行处理</li>
+<li>最大加速比 = 流水段数</li>
+<li>流水技术适合于大量重复的时序过程<blockquote>
+<p>流水段数也叫流水深度；<br>流水线一般<strong>不能</strong>达到最大加速比，原因如下：</p>
+<ol>
+<li>流水段速度不匹配</li>
+<li>流水线的<em>填充<em>和</em>排空</em></li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="MIPS-中的流水线"><a href="#MIPS-中的流水线" class="headerlink" title="MIPS 中的流水线"></a>MIPS 中的流水线</h3><ul>
+<li>五段流水：IF、ID、EX、MEM、WB</li>
+</ul>
+<h3 id="时空图"><a href="#时空图" class="headerlink" title="时空图"></a>时空图</h3><p>流水线的表示方式，从时间和空间两方面描述流水线工作过程</p>
+<ul>
+<li>横坐标表示<em>时间</em></li>
+<li>纵坐标表示<em>各流水段</em></li>
+</ul>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="1-单功能-多功能流水线"><a href="#1-单功能-多功能流水线" class="headerlink" title="1.单功能/多功能流水线"></a>1.单功能/多功能流水线</h4><p>单功能流水线：只能完成一种固定功能的流水线<br>多功能流水线：各段可以进行不同的连接，从而实现不同的功能</p>
+<h4 id="2-静态-动态流水线"><a href="#2-静态-动态流水线" class="headerlink" title="2.静态/动态流水线"></a>2.静态/动态流水线</h4><blockquote>
+<p><strong>针对多功能流水线而言</strong></p>
+</blockquote>
+<p>静态流水线：在某段时间间隔内，流水线各段只能按<strong>同一种</strong>功能的连接方式工作<br>动态流水线：在某段时间间隔内，流水线的一些段实现某种运算时，另一些段在实现另一种运算</p>
+<h4 id="3-部件级-处理机级-处理机间流水线"><a href="#3-部件级-处理机级-处理机间流水线" class="headerlink" title="3.部件级/处理机级/处理机间流水线"></a>3.部件级/处理机级/处理机间流水线</h4><p>部件级流水线：运算操作流水线，将处理机的算术逻辑部件分段<br>处理机级流水线：<strong>指令流水线</strong>，将解释指令的过程按照流水方式处理<br>处理机间流水线：宏流水线，多处理机串行地对同一数据流进行处理</p>
+<h4 id="4-标量-向量流水处理机"><a href="#4-标量-向量流水处理机" class="headerlink" title="4.标量/向量流水处理机"></a>4.标量/向量流水处理机</h4><p>标量流水处理机：处理机不具有向量数据表示，仅对标量数据进行流水处理<br>向量流水处理机：处理机具有向量数据表示，并通过向量指令对向量个元素进行处理</p>
+<h4 id="5-线性-非线性流水线"><a href="#5-线性-非线性流水线" class="headerlink" title="5.线性/非线性流水线"></a>5.线性/非线性流水线</h4><p>线性流水线：流水线各段串行连接，没有回路<br>非线性流水线：流水线中存在反馈回路，存在流水线调度问题</p>
+<h4 id="6-顺序-乱序流水线"><a href="#6-顺序-乱序流水线" class="headerlink" title="6.顺序/乱序流水线"></a>6.顺序/乱序流水线</h4><p>按<em>输出端任务流出顺序</em>与<em>输入端任务流入顺序</em>是否相同划分</p>
+<h2 id="流水线性能分析"><a href="#流水线性能分析" class="headerlink" title="流水线性能分析"></a>流水线性能分析</h2><h3 id="吞吐率"><a href="#吞吐率" class="headerlink" title="吞吐率"></a>吞吐率</h3><p>单位时间内流水线完成的任务数（指令数）</p>
+<ul>
+<li><p>最大吞吐率TP<sub>max</sub>：流水线达到稳定状态后的吞吐率</p>
+<blockquote>
+<p>稳定状态：流水线各段都处于忙碌状态</p>
+</blockquote>
+</li>
+<li><p>若流水线各段时间相等，均为Δt0，则有：<br> <em>TP<sub>max</sub> = 1 / Δt0</em></p>
+</li>
+<li><p>若各段时间不等，为Δti，则有：<br> <em>TP<sub>max</sub> = 1 / max(Δti)</em></p>
+</li>
+</ul>
+<p>最慢的流水段成为流水线的<em>瓶颈</em>；<br>消除流水线瓶颈的方法：<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E6%B6%88%E9%99%A4%E7%93%B6%E9%A2%88.jpg" alt="消除瓶颈"></p>
+<ul>
+<li>细分瓶颈段</li>
+<li>重复设置瓶颈段后的流水线</li>
+</ul>
+<ul>
+<li>实际吞吐率TP<blockquote>
+<p>流水段数m，任务数n，各段耗时相等，为Δt0</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP.jpg" alt="TP"><br>可知：</p>
+<ul>
+<li>TP &lt; TP<sub>max</sub></li>
+<li>当<em> n &gt;&gt; m </em>时，TP ≈ TP<sub>max</sub></li>
+</ul>
+<p><strong>各段时间不等</strong>时，TP如下：<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-T%E6%B5%81%E6%B0%B4.jpg" alt="TP"><br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-TP2.jpg" alt="TP"></p>
+<h3 id="加速比"><a href="#加速比" class="headerlink" title="加速比"></a>加速比</h3><p>流水线速度与<strong>等功能</strong>的非流水线的速度之比<br><em>S = T非流水 / T流水</em><br>令流水段数 m，任务数 n</p>
+<ul>
+<li>各段时间相等，为 Δt0，则：<br> T非流水 = n×m×Δt0<br> T流水 = m×Δt0 + (n-1)×Δt0<br> S = m / (1 + (m - 1) /n)<blockquote>
+<p>该加速比公式体现<strong>段数决定最大加速比</strong></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h3><p>流水线的设备利用率 <em>E</em><br>由于流水线有填充和排空时间，故<strong>必然有</strong> E &lt; 1<br>若各段时间相等，则各段效率也相等：E1 = E2 = … = （nΔt0）/ T流水</p>
+<p>泛用的效率计算公式： E = n 个任务占用的时空区面积 / m 个段总的时空区面积</p>
+<h2 id="流水线中的相关"><a href="#流水线中的相关" class="headerlink" title="流水线中的相关"></a>流水线中的相关</h2><h3 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>结构相关：硬件资源的冲突</li>
+<li>数据相关：一条指令要<strong>用到前面指令的执行结果</strong>，而这些指令在流水线中重叠执行时，可能引起数据相关</li>
+<li>控制相关：流水线遇到会<strong>改变 PC 的值</strong>的指令时会发生控制相关<blockquote>
+<p>相关的出现会导致流水线性能收到影响，甚至<strong>导致错误的执行结果</strong><br>消除相关的基本方法是让流水线<strong>暂停(Stall)</strong>某些指令，而继续执行其他一些指令</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="结构相关"><a href="#结构相关" class="headerlink" title="结构相关"></a>结构相关</h3><p>解决方法：</p>
+<ul>
+<li>增加冗余的硬件资源</li>
+<li>部件流水化</li>
+<li>使用算法对资源请求进行排队（无法提高效率）</li>
+</ul>
+<h3 id="数据相关"><a href="#数据相关" class="headerlink" title="数据相关"></a>数据相关</h3><h4 id="分类-2"><a href="#分类-2" class="headerlink" title="分类"></a>分类</h4><ul>
+<li>真相关/流相关：RAW(Read After Write)，即写后读相关</li>
+<li>输出相关：WAW(Write After Write)，写后写相关</li>
+<li>反相关：WAR(Write After Read)，读后写相关</li>
+</ul>
+<h4 id="真相关的消除"><a href="#真相关的消除" class="headerlink" title="真相关的消除"></a>真相关的消除</h4><h5 id="检测-等待"><a href="#检测-等待" class="headerlink" title="检测-等待"></a>检测-等待</h5><ul>
+<li>只要检测到真相关，就插入暂停周期</li>
+<li>实现简单，但效率低</li>
+</ul>
+<p><strong>硬件实现-Scoreboarding</strong></p>
+<blockquote>
+<p>与后文提到的“计分板算法”不是同一概念</p>
+</blockquote>
+<ol>
+<li>每个寄存器都附加 1bit <strong>有效位</strong></li>
+<li>当一个指令正在写某个寄存器时，将该寄存器的有效位<strong>置零</strong></li>
+<li>处于<strong>译码阶段</strong>的指令需要先检测该指令的源寄存器和目标寄存器的有效位，若其中<strong>任何一个</strong>寄存器的有效位为 0 ，则暂停<br>该方法会检测到所有数据相关并暂停（反相关和输出相关也会导致暂停）</li>
+</ol>
+<p><strong>硬件实现2-基于组合逻辑的相关检测</strong></p>
+<ol>
+<li>记录处于<strong>译码阶段</strong>的指令的源寄存器，检测处于<strong>后续阶段</strong>（<em>执行、访存、写回阶段</em>）的指令是否要<strong>写</strong>上述被记录的寄存器</li>
+<li>若有，则暂停<br>该方法下，只有<strong>真相关</strong>会导致暂停</li>
+</ol>
+<h5 id="定向技术"><a href="#定向技术" class="headerlink" title="定向技术"></a>定向技术</h5><p>上述方法只要检测到相关就立即插入暂停周期，但是我们想尽量减少插入的暂停——只在必要的时候暂停，定向技术就可以减少插入的暂停<br>基本思想：将计算结果从其产生的地方直接送至其它指令需要的地方（即不需前一个指令将结果写回寄存器后，另一指令再从该寄存器读出数据）<br>作用：尽量避免<strong>真相关</strong>引起的暂停</p>
+<h5 id="需要暂停的相关"><a href="#需要暂停的相关" class="headerlink" title="需要暂停的相关"></a>需要暂停的相关</h5><p><strong>并不是所有真相关带来的暂停都可以采用定向技术来消除</strong><br>如，若有如下指令序列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LW R1, 0(R2)</span><br><span class="line">SUB R4, R1, R5</span><br><span class="line">AND R6, R1, R7</span><br><span class="line">OR R8, R1, R9</span><br></pre></td></tr></table></figure>
+<p>考虑MIPS五段流水，可知<code>SUB R4, R1, R5</code>中断操作数<code>R1</code>依赖于上一条访存指令<code>LW R1, 0(R2)</code>， SUB 指令在 EX 段(第三阶段)开始时就需要 R1 的数据，而 LW 指令直到 MEM 段(第四阶段)结束才能取出值，即使采用定向技术也不能解决该数据相关问题；<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-%E5%AE%9A%E5%90%91.jpg" alt="定向"><br>解决办法：设置<em>“流水线互锁</em>，一旦检测到上述数据相关，则暂停 LW 指令之后的所有指令，<strong>直到能够通过定向技术解决该数据相关</strong></p>
+<h5 id="检测-消除"><a href="#检测-消除" class="headerlink" title="检测-消除"></a>检测-消除</h5><p>即<em>指令调度</em></p>
+<h4 id="输出相关和反相关的消除"><a href="#输出相关和反相关的消除" class="headerlink" title="输出相关和反相关的消除"></a>输出相关和反相关的消除</h4><ul>
+<li>寄存器换名</li>
+<li>规定写操作只在一个阶段统一执行，且指令<strong>按顺序执行</strong><blockquote>
+<p>MIPS 流水的写回段(WB)就是统一进行写操作的阶段，因此<strong>非动态调度的 MIPS 中不存在输出相关和反相关</strong></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="指令调度"><a href="#指令调度" class="headerlink" title="指令调度"></a>指令调度</h4><p>基本思想：在<strong>编译阶段</strong>改变执行代码的顺序，消除潜在的暂停<br>考虑如下表达式生成的代码序列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; b + c;</span><br><span class="line">d &#x3D; e - f;</span><br></pre></td></tr></table></figure>
+<p>一般而言，不进行指令调度的代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LW  R1, (b)</span><br><span class="line">LW  R2, (c)</span><br><span class="line">;(Stall)</span><br><span class="line">ADD  R3, R1, R2</span><br><span class="line">SW  (a), R3</span><br><span class="line">LW  R4, (e)</span><br><span class="line">LW  R5, (f)</span><br><span class="line">;(Stall)</span><br><span class="line">SUB  R6, R4, R5</span><br><span class="line">SW  (d), R6</span><br></pre></td></tr></table></figure>
+<p>会在注释处产生暂停，而进行指令调度后，可以消除暂停：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LW  R1, (b)</span><br><span class="line">LW  R2, (c)</span><br><span class="line">LW  R4, (e)  ;避免ADD暂停</span><br><span class="line">ADD  R3, R1, R2</span><br><span class="line">LW  R5, (f)</span><br><span class="line">SW  (a), R3  ;避免SUB暂停</span><br><span class="line">SUB  R6, R4, R5</span><br><span class="line">SW  (d), R6</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制相关"><a href="#控制相关" class="headerlink" title="控制相关"></a>控制相关</h3><p>所有指令都与<strong>上一条指令</strong>控制相关</p>
+<ul>
+<li>若上一条指令是非控制流指令，则 PC = PC + 4</li>
+<li>若上一条指令是非控制流指令，则 PC 的值取决于指令的执行结果</li>
+<li>是否是控制流指令，在<em>译码阶段</em>结束后可以确定</li>
+<li>控制流指令的跳转地址，在<em>执行阶段</em>结束后才能确定<blockquote>
+<p>无条件跳转的子过程调用的跳转地址可以在译码阶段结束后确定</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap3-branch.jpg" alt="branch"></p>
+<h4 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h4><ul>
+<li>暂停</li>
+<li>分支预测</li>
+<li>分支延迟槽</li>
+</ul>
+<h1 id="4-指令级并行ILP"><a href="#4-指令级并行ILP" class="headerlink" title="4-指令级并行ILP"></a>4-指令级并行ILP</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>ILP：Instruction Level Parallelism<br>处理机利用流水线使指令重叠并行执行，以达到提高性能的目的</p>
+<h3 id="流水线实际CPI"><a href="#流水线实际CPI" class="headerlink" title="流水线实际CPI"></a>流水线实际CPI</h3><blockquote>
+<p>CPI：Cycles Per Instruction，平均每条指令需要的周期数<br>IPC：Instructions Per Cycle，平均每个周期处理的指令数</p>
+</blockquote>
+<p>CPI = 理想CPI + 各类停顿（结构、控制、数据冲突导致）<br><em>理想CPI</em> 是衡量流水线最高性能的一个指标</p>
+<h3 id="基本程序块"><a href="#基本程序块" class="headerlink" title="基本程序块"></a>基本程序块</h3><ul>
+<li>一段除了<em>入口</em>和<em>出口</em>以外不包含<strong>其他分支</strong>的代码段</li>
+<li>程序平均 5 - 7 条指令就会有一个分支</li>
+</ul>
+<h3 id="循环级并行"><a href="#循环级并行" class="headerlink" title="循环级并行"></a>循环级并行</h3><ul>
+<li>使一个循环中不同循环体并行执行</li>
+<li>指令级并行研究重点</li>
+<li>一般使用<strong>循环展开</strong>来实现</li>
+</ul>
+<h3 id="相关与冲突"><a href="#相关与冲突" class="headerlink" title="相关与冲突"></a>相关与冲突</h3><h4 id="区分"><a href="#区分" class="headerlink" title="区分"></a>区分</h4><p><strong>相关和冲突是两个不同的概念：</strong></p>
+<ol>
+<li>相关是<strong>指令之间的关系</strong>，属于程序的固有属性；</li>
+<li>冲突是<strong>相关在流水线上的反映</strong>，具体一次相关在流水线上是否会产生冲突以及冲突会带来多长的停顿，要考虑流水线本身的属性；</li>
+</ol>
+<h4 id="解决相关"><a href="#解决相关" class="headerlink" title="解决相关"></a>解决相关</h4><ul>
+<li>保持相关，但<strong>避免冲突</strong>；</li>
+<li>通过代码变换<strong>消除相关</strong>；<blockquote>
+<p>可以看到要消除相关必须要改变代码，说明相关是程序的固有属性</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="保证程序正确执行必须保持的属性"><a href="#保证程序正确执行必须保持的属性" class="headerlink" title="保证程序正确执行必须保持的属性"></a>保证程序正确执行必须保持的属性</h4><ul>
+<li>数据流：保持<strong>数据相关</strong>和<strong>控制相关</strong></li>
+<li>异常行为：即改变指令执行顺序<strong>不能导致程序中发生新的异常</strong></li>
+</ul>
+<h2 id="动态调度"><a href="#动态调度" class="headerlink" title="动态调度"></a>动态调度</h2><h3 id="静态调度的概念"><a href="#静态调度的概念" class="headerlink" title="静态调度的概念"></a>静态调度的概念</h3><ul>
+<li>基于<strong>编译器</strong>的调度，以减少相关和冲突</li>
+<li>在<strong>编译阶段</strong>进行的代码调度和优化</li>
+<li>通过将相关的指令<em>拉开距离</em>来<strong>减少</strong>可能产生的停顿</li>
+</ul>
+<h3 id="动态调度的概念"><a href="#动态调度的概念" class="headerlink" title="动态调度的概念"></a>动态调度的概念</h3><p>在程序的<strong>执行过程</strong>中，依靠<em>专门硬件</em>对代码进行调度，减少<strong>数据相关</strong>导致的停顿</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>能处理一些在编译时情况不明的相关（如涉及访存的相关）</li>
+<li>提高可移植性，能够使本来面向某一流水线优化编译的代码在其它流水线上也能高效运行</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>硬件复杂性显著增加</li>
+</ul>
+<h3 id="乱序执行"><a href="#乱序执行" class="headerlink" title="乱序执行"></a>乱序执行</h3><h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>将五段流水的<strong>译码阶段</strong>再分为两个阶段：</p>
+<ol>
+<li>流出（IS）：译码、检测是否有结构冲突</li>
+<li>读操作数（RO）：等待数据冲突消除、读操作数</li>
+</ol>
+<h4 id="带来的问题"><a href="#带来的问题" class="headerlink" title="带来的问题"></a>带来的问题</h4><ul>
+<li>出现新的数据冲突</li>
+<li>导致多条指令同时处于执行当中</li>
+<li>异常处理比较复杂</li>
+</ul>
+<h2 id="计分板算法"><a href="#计分板算法" class="headerlink" title="计分板算法"></a>计分板算法</h2><p>一种动态调度算法</p>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><h4 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h4><p><strong>资源充足时</strong>，尽可能早地执行没有数据阻塞的指令，达到<em>每个时钟周期执行一条指令</em></p>
+<h4 id="对-WAR（反相关）的解决方案"><a href="#对-WAR（反相关）的解决方案" class="headerlink" title="对 WAR（反相关）的解决方案"></a>对 WAR（反相关）的解决方案</h4><ul>
+<li>排队等待操作以及它们操作数的拷贝</li>
+<li>只在读操作数段(RO)才读取寄存器</li>
+</ul>
+<h4 id="对-WAW（输出相关）的解决方案"><a href="#对-WAW（输出相关）的解决方案" class="headerlink" title="对 WAW（输出相关）的解决方案"></a>对 WAW（输出相关）的解决方案</h4><p>检测到冒险，插入等待周期</p>
+<h4 id="对“多条指令同时处于执行当中”问题的解决"><a href="#对“多条指令同时处于执行当中”问题的解决" class="headerlink" title="对“多条指令同时处于执行当中”问题的解决"></a>对“多条指令同时处于执行当中”问题的解决</h4><ul>
+<li>部件流水</li>
+<li>冗余部件</li>
+</ul>
+<h3 id="计分板控制的四级"><a href="#计分板控制的四级" class="headerlink" title="计分板控制的四级"></a>计分板控制的四级</h3><h4 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a>Issue</h4><blockquote>
+<p>流出段，实现<strong>指令译码</strong>和<strong>检测结构冒险</strong></p>
+</blockquote>
+<p>允许流出的条件：</p>
+<ul>
+<li>指令需要的功能单元当前可用（检测结构冒险）</li>
+<li><strong>没有</strong>其它的活动指令拥有与该指令同样的<strong>目的寄存器</strong>（检测WAW）<blockquote>
+<p><em>活动指令</em>：已经进入流水线并且尚未完成执行的指令</p>
+</blockquote>
+</li>
+</ul>
+<p>若不满足上述条件，则暂停指令流出，<span style="color:red">且该指令之后的指令也不能流出</span>，直到冲突消除</p>
+<blockquote>
+<p>保证指令<strong>按序流出</strong></p>
+</blockquote>
+<h4 id="Read-Operands"><a href="#Read-Operands" class="headerlink" title="Read Operands"></a>Read Operands</h4><blockquote>
+<p>读操作数段，等待数据冲突消除、读操作数</p>
+</blockquote>
+<p>操作数<em>可用</em>的条件：</p>
+<ul>
+<li>先前的活动指令没有写该寄存器</li>
+<li>对所需要的寄存器的<strong>写操作已经结束</strong></li>
+</ul>
+<p>若操作数可用，则允许读操作数</p>
+<h4 id="Execution"><a href="#Execution" class="headerlink" title="Execution"></a>Execution</h4><blockquote>
+<p>执行段，实现指令功能</p>
+</blockquote>
+<p>执行结束后，需要<strong>通知计分板</strong></p>
+<h4 id="Write-Result"><a href="#Write-Result" class="headerlink" title="Write Result"></a>Write Result</h4><blockquote>
+<p>写结果段</p>
+</blockquote>
+<p>功能部件完成执行后，计分板就检测是否有<strong>反相关</strong></p>
+<ul>
+<li>若检测出反相关，则暂停指令直到冲突消除</li>
+<li>否则，允许写结果</li>
+</ul>
+<h3 id="计分板中需要记录的信息"><a href="#计分板中需要记录的信息" class="headerlink" title="计分板中需要记录的信息"></a>计分板中需要记录的信息</h3><h4 id="Instruction-Status"><a href="#Instruction-Status" class="headerlink" title="Instruction Status"></a>Instruction Status</h4><p>指令处于四段中的哪一段</p>
+<h4 id="Functional-Unit-Status"><a href="#Functional-Unit-Status" class="headerlink" title="Functional Unit Status"></a>Functional Unit Status</h4><p>功能单元的状态</p>
+<ul>
+<li>Busy：该单元是否处于忙碌状态</li>
+<li>Op：该单元当前执行的操作</li>
+<li>Fi：使用该单元的指令的<strong>目标寄存器</strong></li>
+<li>Fj, Fk：使用该单元的指令的<strong>源寄存器</strong>（源寄存器也可能只有一个）</li>
+<li>Qj, Qk：表明源寄存器 Fj, Fk 的值依赖于哪个功能单元</li>
+<li>Rj, Rk：标识 Fj, Fk 数据是否准备好</li>
+</ul>
+<h4 id="Register-Result-Status"><a href="#Register-Result-Status" class="headerlink" title="Register Result Status"></a>Register Result Status</h4><p>标识哪个功能单元的结果会写到哪个寄存器</p>
+<h4 id="信息的登记"><a href="#信息的登记" class="headerlink" title="信息的登记"></a>信息的登记</h4><p>指令一旦流出，就需要在计分板上登记信息</p>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>顺序流出，乱序执行</li>
+<li>没有旁路硬件</li>
+<li>指令调度局限于基本块内</li>
+<li>功能部件少</li>
+<li>对于结构冒险和WAR冒险都采取等待，性能不高</li>
+</ul>
+<h2 id="Tomasulo算法"><a href="#Tomasulo算法" class="headerlink" title="Tomasulo算法"></a>Tomasulo算法</h2><p>另一种动态调度算法</p>
+<h3 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>即使在<strong>没有特殊编译支持</strong>的情况下，也能取得高性能</p>
+<h4 id="与计分板的对比"><a href="#与计分板的对比" class="headerlink" title="与计分板的对比"></a>与计分板的对比</h4><ul>
+<li><p>计分板算法的控制、缓冲器集中于计分板，而 Tomasulo 算法的分布于部件</p>
+<blockquote>
+<p>功能部件缓冲器被称为<em>保留站 (reservation stations)</em>，用于存放未决的操作数</p>
+</blockquote>
+</li>
+<li><p>计分板算法中，指令中的寄存器被数值代替，而 Tomasulo 算法中的寄存器被<strong>指向保留站的指针</strong>代替</p>
+<blockquote>
+<p>这一过程称为：寄存器换名<br><strong>可以消除 WAR、WAW 冒险</strong></p>
+</blockquote>
+</li>
+<li><p>结果从保留站直通功能部件，无需通过寄存器，而是通过<em>公共数据总线 (Common Data Bus) <em>将结果</em></em>广播**到所有的功能部件</p>
+</li>
+<li><p>Load 和 Store 也具有保留站（即缓冲）</p>
+</li>
+</ul>
+<h3 id="Tomasulo-算法的三个阶段"><a href="#Tomasulo-算法的三个阶段" class="headerlink" title="Tomasulo 算法的三个阶段"></a>Tomasulo 算法的三个阶段</h3><h4 id="Issue-1"><a href="#Issue-1" class="headerlink" title="Issue"></a>Issue</h4><blockquote>
+<p>流出段</p>
+</blockquote>
+<p>发射的条件：<br>保留站空闲（无结构冒险）</p>
+<p>发射时执行的动作：</p>
+<ul>
+<li>进行寄存器换名（若需要则进行，不需要则直接发射）</li>
+<li>若有操作数已经准备就绪，则将其送入保留站</li>
+</ul>
+<h4 id="Execution-1"><a href="#Execution-1" class="headerlink" title="Execution"></a>Execution</h4><blockquote>
+<p>执行段</p>
+</blockquote>
+<p>允许执行的条件：<br>操作数均就绪</p>
+<p>若未就绪，则<strong>观测公共总线</strong>等待所需结果</p>
+<h4 id="Write-Result-1"><a href="#Write-Result-1" class="headerlink" title="Write Result"></a>Write Result</h4><blockquote>
+<p>写结果段</p>
+</blockquote>
+<ul>
+<li>通过公共总线将结果写入到所有等待的部件</li>
+<li>标记保留站可用（释放保留站）</li>
+</ul>
+<h3 id="公共数据总线"><a href="#公共数据总线" class="headerlink" title="公共数据总线"></a>公共数据总线</h3><h4 id="信息"><a href="#信息" class="headerlink" title="信息"></a>信息</h4><ul>
+<li>数据</li>
+<li>源<blockquote>
+<p>64 位数据 + 4 位功能部件源地址</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ul>
+<li>保留站监测公共数据总线，若与期望的功能部件匹配，则写入功能部件、开始执行</li>
+<li>产生的结果进行广播</li>
+</ul>
+<h3 id="保留站的组成"><a href="#保留站的组成" class="headerlink" title="保留站的组成"></a>保留站的组成</h3><ul>
+<li>Op：功能部件，完成具体的操作</li>
+<li>Vj, Vk：源操作数的<strong>实际数值</strong></li>
+<li>Qj, Qk：将产生源寄存器值（将写的值）的保留站</li>
+<li>Busy：保留站或功能单元的状态</li>
+<li>Register result status：指明那个功能部件将写到哪个寄存器</li>
+</ul>
+<blockquote>
+<ul>
+<li>存储缓冲器中的 V 域存放将要存储的结果</li>
+<li>没有计分板中的 Ready 标志</li>
+<li>若 Qj, Qk = null ，就表示操作数处于 Ready 状态</li>
+</ul>
+</blockquote>
+<h3 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>顺序发射、乱序执行、乱序完成</li>
+<li>反相关和输出相关不会导致暂停</li>
+<li>硬件复杂</li>
+<li>需要大量高速的相联存储</li>
+</ul>
+<h2 id="动态分支预测"><a href="#动态分支预测" class="headerlink" title="动态分支预测"></a>动态分支预测</h2><p>在程序运行时，根据分支指令过去的表现来预测分支指令将来的行为</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><h4 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h4><ul>
+<li>预测分支是否成功</li>
+<li>尽快找到分支目标地址，避免控制相关造成的停顿</li>
+</ul>
+<h4 id="需要解决的问题"><a href="#需要解决的问题" class="headerlink" title="需要解决的问题"></a>需要解决的问题</h4><ul>
+<li>如何记录分支的历史信息</li>
+<li>如何根据历史信息预测分支</li>
+<li>预测错误时如何处理</li>
+</ul>
+<h3 id="BHT——分支历史表"><a href="#BHT——分支历史表" class="headerlink" title="BHT——分支历史表"></a>BHT——分支历史表</h3><p><em>Branch History Table</em></p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><ul>
+<li>最简单的动态分支预测方法</li>
+<li>使用 BHT 来记录分支指令<strong>最近一次或几次</strong>的执行情况（是否成功），并据此预测</li>
+</ul>
+<h4 id="只有1个预测位的BHT"><a href="#只有1个预测位的BHT" class="headerlink" title="只有1个预测位的BHT"></a>只有1个预测位的BHT</h4><ul>
+<li>只记录最近一次的分支，BHT 中只需要** 1 位二进制**</li>
+</ul>
+<h4 id="采用2位二进制记录历史"><a href="#采用2位二进制记录历史" class="headerlink" title="采用2位二进制记录历史"></a>采用2位二进制记录历史</h4><ul>
+<li>预测准确度大大提高</li>
+<li>两位分支预测与 n 位（n &gt; 2）分支预测性能相差不大</li>
+<li>状态转换图<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-bht.jpg" alt="BHT"></li>
+</ul>
+<h4 id="两位分支预测的步骤"><a href="#两位分支预测的步骤" class="headerlink" title="两位分支预测的步骤"></a>两位分支预测的步骤</h4><ol>
+<li>分支预测<ul>
+<li>当分支指令到达译码段时，根据从 BHT 读出的信息进行分支预测</li>
+<li>若预测正确，继续处理后续指令；否则作废已经预取和分析的指令，恢复现场，从另一条分支重新取指令</li>
+</ul>
+</li>
+<li>修改 BHT 的状态</li>
+</ol>
+<h4 id="BHT-的适用情况"><a href="#BHT-的适用情况" class="headerlink" title="BHT 的适用情况"></a>BHT 的适用情况</h4><p>判断分支是否成功所需时间<strong>大于</strong>确定分支目标所需时间</p>
+<blockquote>
+<p>因为 BHT 不支持提供分支目标地址，做出预测之后仍要计算分支目标</p>
+</blockquote>
+<h3 id="BTB——分支目标缓冲器"><a href="#BTB——分支目标缓冲器" class="headerlink" title="BTB——分支目标缓冲器"></a>BTB——分支目标缓冲器</h3><p><em>Branch Target Buffer</em></p>
+<h4 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h4><p>将分支开销降为 0</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><ul>
+<li>将分支成功的<strong>分支指令的地址</strong>和<strong>分支目标的地址</strong>都放入缓冲区保存，缓冲区以分支指令的地址作为标识</li>
+<li>BTB 结构<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-btb.jpg" alt="BTB"></li>
+<li>操作流程<br><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/chap4-btb2.jpg" alt="BHT"></li>
+</ul>
+<h3 id="前瞻执行"><a href="#前瞻执行" class="headerlink" title="前瞻执行"></a>前瞻执行</h3><h4 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h4><ul>
+<li>对分支指令的结果进行猜测，并假设猜测总是正确，然后按照猜测结果取指令、流出指令、执行指令</li>
+<li>指令执行的结果<strong>不立即写回寄存器/存储器</strong>，而是先放入缓冲器<em>ROB(Re-Order Buffer)</em></li>
+<li>待相应指令得到<strong>确认(Commit)</strong>，才将结果写入寄存器/存储器</li>
+</ul>
+<h4 id="对-Tomasulo-算法进行扩充，使之支持前瞻执行"><a href="#对-Tomasulo-算法进行扩充，使之支持前瞻执行" class="headerlink" title="对 Tomasulo 算法进行扩充，使之支持前瞻执行"></a>对 Tomasulo 算法进行扩充，使之支持前瞻执行</h4><h5 id="将算法的写结果段分成两段"><a href="#将算法的写结果段分成两段" class="headerlink" title="将算法的写结果段分成两段"></a>将算法的写结果段分成两段</h5><ol>
+<li>写结果<ul>
+<li>前瞻执行结果写入 ROB</li>
+<li>通过 CDB 在指令之间传送结果，供需要的指令使用</li>
+</ul>
+</li>
+<li>指令确认<ul>
+<li>分支结果出来后，对相应指令的前瞻执行予以确认</li>
+<li>若猜测正确，将 ROB 中的结果写入寄存器/存储器</li>
+<li>若猜测错误，不予以确认，从正确的分支路径开始重新取指执行</li>
+</ul>
+</li>
+</ol>
+<p><strong>关键思想</strong>：允许指令乱序执行，但必须<strong>顺序确认</strong></p>
+<h5 id="ROB-的组成"><a href="#ROB-的组成" class="headerlink" title="ROB 的组成"></a>ROB 的组成</h5><ul>
+<li>指令类型</li>
+<li>目标地址：指令执行结果要写入的目标寄存器号/存储单元地址</li>
+<li>数据值：保存指令前瞻执行的结果</li>
+<li>就绪字段：指出指令是否执行完成且数据已经就绪</li>
+</ul>
+<blockquote>
+<p>前瞻执行下，Tomasulo 算法中保留站的<strong>换名功能由 ROB 实现</strong></p>
+</blockquote>
+<h5 id="指令执行步骤"><a href="#指令执行步骤" class="headerlink" title="指令执行步骤"></a>指令执行步骤</h5><ol>
+<li>流出<ul>
+<li>指令队列头部取指</li>
+<li>若有空闲的保留站<strong>且</strong>有空闲的 ROB 项，则流出指令，相应信息填入保留站和 ROB 项</li>
+</ul>
+</li>
+<li>执行<ul>
+<li>操作数就绪后，执行指令</li>
+<li>操作数未就绪，检测 CDB</li>
+</ul>
+</li>
+<li>写结果<ul>
+<li>结果产生后，将<strong>结果</strong>连同流出段分配的** ROB 项的编号*<em>一同放入 CDB，经 CDB *</em>写入 ROB **及其它需要结果的保留站</li>
+<li>释放产生该结果的保留站</li>
+<li>store 指令：若待写数据就绪，则写入 ROB，否则监测 CDB</li>
+</ul>
+</li>
+<li>确认<ul>
+<li>分支指令：预测错误的分支到达 ROB 队列头部时，*<em>清空 ROB *</em>，从分支指令的另一分支重新执行；当预测正确的分支到达 ROB 头部时，该指令执行完成；</li>
+<li>其它指令：该指令到达 ROB 队列头部且结果已经就绪时，将结果写入目标寄存器（store指令则写入存储器），并从 ROB 中删除该指令</li>
+</ul>
+</li>
+</ol>
+<h2 id="多指令流出技术"><a href="#多指令流出技术" class="headerlink" title="多指令流出技术"></a>多指令流出技术</h2><p>一个时钟周期允许流出多条指令</p>
+<h3 id="多流出处理机的两种基本风格"><a href="#多流出处理机的两种基本风格" class="headerlink" title="多流出处理机的两种基本风格"></a>多流出处理机的两种基本风格</h3><h4 id="超标量-Superscalar"><a href="#超标量-Superscalar" class="headerlink" title="超标量(Superscalar)"></a>超标量(Superscalar)</h4><ul>
+<li>每个时钟周期流出指令条数<strong>不固定</strong>（但<strong>有上限</strong>）</li>
+<li>流出上限为 n，则该处理机称为* n 流出*</li>
+<li>可以通过编译器进行<strong>静态调度</strong>，也可以基于 Tomasulo 算法进行<strong>动态调度</strong></li>
+</ul>
+<h4 id="VLIW-EPIC"><a href="#VLIW-EPIC" class="headerlink" title="VLIW/EPIC"></a>VLIW/EPIC</h4><blockquote>
+<p>Very Long Instruction Word：超长指令字</p>
+</blockquote>
+<ul>
+<li>每个时钟周期流出指令条数<strong>固定</strong>，这些指令构成一条长指令或<em>指令包</em></li>
+<li>指令包中，指令之间的并行性是显式的</li>
+<li>指令调度由<strong>编译器</strong>静态完成</li>
+</ul>
+<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><ul>
+<li>Superscalar 对程序员透明</li>
+<li>没有经过编译器针对超标量结构进行优化的代码也能运行</li>
+</ul>
+<h3 id="静态多流出技术"><a href="#静态多流出技术" class="headerlink" title="静态多流出技术"></a>静态多流出技术</h3><ul>
+<li>典型<em>超标量</em>处理器中，每个时钟周期可以流出** 1 ~ 8 **条指令</li>
+<li>指令<strong>按序流出</strong>，流出时进行冲突检测</li>
+</ul>
+<h4 id="流出时的冲突检测"><a href="#流出时的冲突检测" class="headerlink" title="流出时的冲突检测"></a>流出时的冲突检测</h4><ul>
+<li>包内冲突检测：检测指令包中的结构冲突/数据冲突，选出初步判定可以流出的指令</li>
+<li>检测所选出的指令与正在执行的指令是否有冲突</li>
+</ul>
+<h4 id="影响性能的因素"><a href="#影响性能的因素" class="headerlink" title="影响性能的因素"></a>影响性能的因素</h4><ul>
+<li>load指令</li>
+<li>分支延迟</li>
+</ul>
+<h3 id="动态多流出系统"><a href="#动态多流出系统" class="headerlink" title="动态多流出系统"></a>动态多流出系统</h3><h4 id="扩展-Tomasulo-算法以支持动态多流出"><a href="#扩展-Tomasulo-算法以支持动态多流出" class="headerlink" title="扩展 Tomasulo 算法以支持动态多流出"></a>扩展 Tomasulo 算法以支持动态多流出</h4><ul>
+<li>每周期流出两条指令</li>
+<li>一条整数指令，一条浮点指令</li>
+<li>指令顺序流向保留站</li>
+<li>将整数用的表与浮点用的表结构分开，分别进行处理</li>
+</ul>
+<h2 id="循环展开和指令调度"><a href="#循环展开和指令调度" class="headerlink" title="循环展开和指令调度"></a>循环展开和指令调度</h2><p>由编译器在编译阶段完成</p>
+<h3 id="循环展开常用方法"><a href="#循环展开常用方法" class="headerlink" title="循环展开常用方法"></a>循环展开常用方法</h3><ul>
+<li>指令调度</li>
+<li>寄存器重命名</li>
+</ul>
+<h1 id="5-存储层次"><a href="#5-存储层次" class="headerlink" title="5-存储层次"></a>5-存储层次</h1><h2 id="存储器的层次结构"><a href="#存储器的层次结构" class="headerlink" title="存储器的层次结构"></a>存储器的层次结构</h2><h3 id="设计多级存储的原因"><a href="#设计多级存储的原因" class="headerlink" title="设计多级存储的原因"></a>设计多级存储的原因</h3><p>人们对于存储器<strong>“容量大、速度快、价格低”</strong>的3个要求是互相矛盾的：</p>
+<ul>
+<li>速度越快，每位价格越高</li>
+<li>容量越大，每位价格越低</li>
+<li>容量越大，速度越慢</li>
+</ul>
+<p>设计层次结构以<strong>缓解矛盾</strong></p>
+<h3 id="层次结构"><a href="#层次结构" class="headerlink" title="层次结构"></a>层次结构</h3><ol>
+<li>Register File——寄存器组</li>
+<li>L1 cache——一级缓存</li>
+<li>L2 cache——二级缓存</li>
+<li>L3 cache——三级缓存</li>
+<li>Main Memory——主存</li>
+<li>Swap Disk——外存</li>
+</ol>
+<h3 id="性能参数"><a href="#性能参数" class="headerlink" title="性能参数"></a>性能参数</h3><blockquote>
+<p>详见教材P174</p>
+</blockquote>
+<h4 id="平均访问时间"><a href="#平均访问时间" class="headerlink" title="平均访问时间"></a>平均访问时间</h4><p><img src="/2020/06/20/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%5Cchap5-TA.jpg" alt="TA"><br>H：命中率<br>T<sub>A1</sub>：命中时的访存时间，即<em>命中时间</em><br>T<sub>A2</sub>：访问下一级存储器的时间<br>T<sub>B</sub>：将信息从下一级存储器传输到上一级存储器的时间<br>T<sub>M</sub> = T<sub>A2</sub> + T<sub>B</sub>：失效开销</p>
+<blockquote>
+<p>失效时，要先访问下一级存储(T<sub>A2</sub>)，将信息传送到上一级存储(T<sub>B</sub>)，再从上一级存储将数据读入(T<sub>A1</sub>)</p>
+</blockquote>
+<h2 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h2><p>用于弥补 CPU 与主存在速度上的差距</p>
+<h3 id="映象规则"><a href="#映象规则" class="headerlink" title="映象规则"></a>映象规则</h3><p>映象——主存块如何放置在 Cache 中</p>
+<h4 id="全相联映象"><a href="#全相联映象" class="headerlink" title="全相联映象"></a>全相联映象</h4><ul>
+<li>主存中<strong>任意一块</strong>可以放置在 Cache 中的<strong>任意</strong>一个位置</li>
+</ul>
+<h4 id="直接映象"><a href="#直接映象" class="headerlink" title="直接映象"></a>直接映象</h4><ul>
+<li>主存中的每一个块只能被放置在 Cache 中<strong>唯一</strong>的一个位置</li>
+<li>若 Cache 块数为 <em>M</em>，主存中的第 <em>i</em> 块将映射到 Cache 中的第 <em>j</em> 块，则有：** j = i mod M**</li>
+</ul>
+<h4 id="组相联映象"><a href="#组相联映象" class="headerlink" title="组相联映象"></a>组相联映象</h4><ul>
+<li>主存中的每一个块只能被放置在 Cache 中<strong>唯一的一组</strong>中的<strong>任意一个位置</strong></li>
+<li>若 Cache<strong>组数</strong>为 <em>G</em>，主存中的第 <em>i</em> 块将映射到 Cache 中的第 <em>k</em> 组，则有：** k = i mod G**</li>
+</ul>
+<h4 id="相联度"><a href="#相联度" class="headerlink" title="相联度"></a>相联度</h4><ul>
+<li>主存中的一块可以映射到 Cache 中的块数</li>
+<li>相联度越高，Cache 空间利用率就越高，块冲突概率就越低，故 Cache 失效率也越低</li>
+<li>相联度的提高会导致 Cache 的实现变复杂，因而不是相联度越高越好</li>
+</ul>
+<h4 id="子块-subblock"><a href="#子块-subblock" class="headerlink" title="子块(subblock)"></a>子块(subblock)</h4><ul>
+<li>将一个块划分为若干子块，每个子块分配一个有效位和脏位（污染位）</li>
+<li>CPU 请求数据时可以不用传输一整个块，进一步减少传输时间</li>
+<li>对于写回法 Cache，发生替换时可以不需要将整个块写回到下一级存储，而只写被修改过的子块，以节省带宽</li>
+<li>会带来额外的复杂度</li>
+</ul>
+<h3 id="查找方法"><a href="#查找方法" class="headerlink" title="查找方法"></a>查找方法</h3><h4 id="侯选位置"><a href="#侯选位置" class="headerlink" title="侯选位置"></a>侯选位置</h4><p>对于一个有 M 块的 Cache 而言：</p>
+<ul>
+<li>直接映像的侯选位置为1</li>
+<li>全相联映象的侯选位置为 M</li>
+<li>n 路组相联映象的侯选位置为 n</li>
+</ul>
+<h4 id="并行查找实现"><a href="#并行查找实现" class="headerlink" title="并行查找实现"></a>并行查找实现</h4><ul>
+<li>组相联存储器</li>
+<li>单体多字存储器 + 比较器</li>
+</ul>
+<h4 id="地址组成"><a href="#地址组成" class="headerlink" title="地址组成"></a>地址组成</h4><p>{Tag, 索引(index), 块内地址(byte in block)}<br><strong>Tag</strong>：用于检查在 Cache 中找到的数据是否是所需要的数据；<br><strong>索引</strong>：Cache 组号；<br><strong>块内地址</strong>：块内地址；</p>
+<blockquote>
+<p>{Tag, 索引} 被称为<em>主存块地址</em></p>
+<ul>
+<li>对于全相联映象，因为相当于整个 Cache 只有一个组，故没有索引段，整个主存块地址均为Tag</li>
+<li>对于直接映象，因为相当于每个块都是一个组，故索引即为** Cache 块号**</li>
+</ul>
+</blockquote>
+<h4 id="查找步骤"><a href="#查找步骤" class="headerlink" title="查找步骤"></a>查找步骤</h4><ol>
+<li>根据缓存配置确定地址划分</li>
+<li>根据索引将组中的块<strong>全部取出</strong>，比较 Tag 段</li>
+<li>若 Tag 段比较成功，说明命中，再检查有效位</li>
+<li>若有效，则命中；否则缺失</li>
+</ol>
+<h3 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h3><h4 id="最佳替换-OPT"><a href="#最佳替换-OPT" class="headerlink" title="最佳替换(OPT)"></a>最佳替换(OPT)</h4><ul>
+<li>替换在之后最长时间不会被使用的块</li>
+<li>难以预测今后的块使用情况，因而仅具有理论价值</li>
+</ul>
+<h4 id="随机法-Random"><a href="#随机法-Random" class="headerlink" title="随机法(Random)"></a>随机法(Random)</h4><ul>
+<li>实现简单</li>
+<li>无法反映程序局部性原理，失效率比 FLU 高</li>
+</ul>
+<h4 id="先进先出-FIFO"><a href="#先进先出-FIFO" class="headerlink" title="先进先出(FIFO)"></a>先进先出(FIFO)</h4><ul>
+<li>容易实现</li>
+<li>无法正确反映局部性原理</li>
+</ul>
+<h4 id="最近最少用-FLU"><a href="#最近最少用-FLU" class="headerlink" title="最近最少用(FLU)"></a>最近最少用(FLU)</h4><ul>
+<li>实现较困难，目前实际上不是选择最近最少用的块替换，而是选择<strong>最久未被访问</strong>的块被替换</li>
+<li>失效率为三者最低</li>
+</ul>
+<h3 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h3><h4 id="写直达法-Write-Through"><a href="#写直达法-Write-Through" class="headerlink" title="写直达法(Write Through)"></a>写直达法(Write Through)</h4><ul>
+<li>执行“写”操作时，不仅将信息写入 Cache 中相应的块，也写入下一级存储器</li>
+<li>保证下一级存储器中数据总是最新的</li>
+<li>实现简单</li>
+</ul>
+<h4 id="写回法-Write-Back"><a href="#写回法-Write-Back" class="headerlink" title="写回法(Write Back)"></a>写回法(Write Back)</h4><ul>
+<li>执行“写”操作时，仅将信息写入 Cache 中相应的块，只有当该块被<strong>替换</strong>时，才被写回主存</li>
+<li>需要设置<em>污染位</em></li>
+<li>速度快，减少访存次数</li>
+</ul>
+<h4 id="写失效的解决方法"><a href="#写失效的解决方法" class="headerlink" title="写失效的解决方法"></a>写失效的解决方法</h4><blockquote>
+<p>写失效：要写时，在 Cache 中没有找到对应块</p>
+</blockquote>
+<ul>
+<li>按写分配：先从内存中现将该块调入到 Cache 中，然后将数据写入 Cache 中对应的位置</li>
+<li>不按写分配：直接写入下一级存储，而不将相应的块调入 Cache</li>
+</ul>
+<blockquote>
+<p>一般而言，写回法的 Cache 采用按写分配法；写直达法的 Cache 采用不按写分配法</p>
+</blockquote>
+<h3 id="Cache-性能分析"><a href="#Cache-性能分析" class="headerlink" title="Cache 性能分析"></a>Cache 性能分析</h3><h4 id="影响因素"><a href="#影响因素" class="headerlink" title="影响因素"></a>影响因素</h4><ol>
+<li><p>缓存大小(Cache Size)</p>
+<ul>
+<li>缓存越大，冲突率越少（命中率提升），但<strong>命中时间会增加</strong></li>
+<li>实际上，缓存容量达到<strong>工作集</strong>大小时，命中率的上升速度就变缓了</li>
+</ul>
+</li>
+<li><p>块大小(Block Size)</p>
+<ul>
+<li>缓存块过小时，无法捕获程序的<strong>空间局部性</strong>；且每块都需要分配 tag 和有效位，<strong>空间利用率低</strong></li>
+<li>缓存块过大时，块<strong>传输时间上升</strong>，耗费带宽；且块数变少，冲突率提升，导致<strong>命中率下降</strong></li>
+</ul>
+</li>
+<li><p>相联度</p>
+<ul>
+<li>高相联度具有较低的缺失率，但会导致较高的命中时间</li>
+</ul>
+</li>
+</ol>
+<h4 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h4><p>平均访存时间 = 命中时间 + 缺失率 × 失效开销</p>
+<h4 id="改进-Cache-性能"><a href="#改进-Cache-性能" class="headerlink" title="改进 Cache 性能"></a>改进 Cache 性能</h4><ul>
+<li>降低失效率</li>
+<li>减少失效开销</li>
+<li>减少 Cache 命中时间</li>
+</ul>
+<h2 id="降低-Cache-失效率的方法"><a href="#降低-Cache-失效率的方法" class="headerlink" title="降低 Cache 失效率的方法"></a>降低 Cache 失效率的方法</h2><h3 id="失效分类"><a href="#失效分类" class="headerlink" title="失效分类"></a>失效分类</h3><ol>
+<li>强制性失效(Compulsory Miss)：当<strong>第一次</strong>访问一个块时，该块不在 Cache 中，需要从下一级存储器中调入</li>
+<li>容量失效(Capacity Miss)：程序执行所需的块<strong>不能全部调入</strong> Cache 中，则当某些块被替换后又重新被访问而发生缺失</li>
+<li>冲突失效(Conflict Miss)：在<em>组相联</em>或<em>直接映象</em>的 Cache 中，若<strong>过多的块映象到同一组（块）</strong>，导致被替换的块又被重新访问而发生的缺失</li>
+</ol>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ol>
+<li>减少强制性失效——预取技术，加大块容量</li>
+<li>减少容量失效——多级缓存，改善替换算法</li>
+<li>减少冲突失效——提高相联度，使用 Hash 算法使索引更加随机，使用 Victim Cache 暂时保存最近被替换的块</li>
+</ol>
+<h3 id="Victim-Cache"><a href="#Victim-Cache" class="headerlink" title="Victim Cache"></a>Victim Cache</h3><p>![victim cache](./体系结构复习/victim cache.jpg)<br>增加一个小容量 Cache （4~8个块），将刚刚被替换的块暂存于此<br>原理：</p>
+<ul>
+<li>直接相联的 Cache 冲突率很高</li>
+<li>被替换出去的块很有可能被重新访问</li>
+</ul>
+<h3 id="Hashing"><a href="#Hashing" class="headerlink" title="Hashing"></a>Hashing</h3><ul>
+<li>使用 Hash 算法生成索引，使块在 Cache 中的分布更加均匀，以<strong>降低冲突率</strong></li>
+<li>实现更加复杂</li>
+</ul>
+<h3 id="伪相联-Cache"><a href="#伪相联-Cache" class="headerlink" title="伪相联 Cache"></a>伪相联 Cache</h3><blockquote>
+<p>既能获得多路组相联的低失效率，又能保持直接映像的命中速度</p>
+</blockquote>
+<h4 id="访问步骤"><a href="#访问步骤" class="headerlink" title="访问步骤"></a>访问步骤</h4><ol>
+<li>命中情况下，访问 Cache 的过程与直接映像 Cache 的过程相同</li>
+<li>不命中时，在访问下一级存储器之前，<strong>先检查 Cache 的另一个块</strong></li>
+<li>若匹配，则发生<em>伪命中</em>，否则，访问下一级存储</li>
+</ol>
+<h3 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h3><ul>
+<li>重构数据访问特征</li>
+<li>重构数据布局</li>
+</ul>
+<h2 id="减少-Cache-失效开销"><a href="#减少-Cache-失效开销" class="headerlink" title="减少 Cache 失效开销"></a>减少 Cache 失效开销</h2><h3 id="内存层级平行-MLP"><a href="#内存层级平行-MLP" class="headerlink" title="内存层级平行(MLP)"></a>内存层级平行(MLP)</h3><blockquote>
+<p>Memory Level Parallelism</p>
+</blockquote>
+<ul>
+<li>并行地服务多条访存请求</li>
+<li>在替换时，尽量选择<strong>可以并行处理的块</strong>替换出去</li>
+</ul>
+<h3 id="非阻塞-Cache-技术"><a href="#非阻塞-Cache-技术" class="headerlink" title="非阻塞 Cache 技术"></a>非阻塞 Cache 技术</h3><ul>
+<li>失效时<strong>仍然允许 CPU 进行其它的命中访问</strong></li>
+<li>需要用一个特殊的寄存器MSHR(Miss Status Handling Registers，缺失状态寄存器)，来记录发生缺失的信息</li>
+</ul>
+<h2 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><h4 id="映象规则-1"><a href="#映象规则-1" class="headerlink" title="映象规则"></a>映象规则</h4><p>采用<strong>全相联</strong>映象</p>
+<blockquote>
+<p>因为失效时需要访问磁盘，<strong>失效开销巨大</strong>，应当尽量降低失效率，实验选择全相联映象<br>引入<em>页表</em>来降低查找延迟</p>
+</blockquote>
+<h4 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h4><ol>
+<li>由虚页号（段号）查找页表（段表）</li>
+<li>将虚页（段）号转换为物理页（段）号</li>
+<li>与页（段）内偏移拼接形成物理地址</li>
+</ol>
+<h4 id="替换算法-1"><a href="#替换算法-1" class="headerlink" title="替换算法"></a>替换算法</h4><p>基本使用<strong>LRU</strong></p>
+<blockquote>
+<p>一般使用附加访问位 + 定时复位的方法筛选最近最少用的页</p>
+</blockquote>
+<h4 id="写策略-1"><a href="#写策略-1" class="headerlink" title="写策略"></a>写策略</h4><p>主存与磁盘的访问时间差距过大，故采用<strong>写回法</strong></p>
+<h4 id="多级页表"><a href="#多级页表" class="headerlink" title="多级页表"></a>多级页表</h4><p>页表尺寸过大时，会占用过多内存，影响性能，此时可以采用多级页表</p>
+<h3 id="快表-TLB"><a href="#快表-TLB" class="headerlink" title="快表 (TLB)"></a>快表 (TLB)</h3><p>通过页表查找页面时，需要<strong>两次访存</strong>，为了进一步优化查找，减少查找延迟而引入<em>快表</em></p>
+<ul>
+<li><strong>快表是一个硬件缓存，访问速度比访问内存快</strong></li>
+<li>快表存放最近经常访问的页表项</li>
+<li>进行地址变换时，先查快表</li>
+<li>快表不命中时，再去访问内存的页表，并且将本次访问的页表项放入快表</li>
+</ul>
+<h1 id="6-I-O系统"><a href="#6-I-O系统" class="headerlink" title="6-I/O系统"></a>6-I/O系统</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><h3 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h3><p>是冯诺依曼架构的重要组成部分</p>
+<h3 id="衡量指标"><a href="#衡量指标" class="headerlink" title="衡量指标"></a>衡量指标</h3><ul>
+<li>响应时间</li>
+<li>可靠性</li>
+</ul>
+<h3 id="谬论"><a href="#谬论" class="headerlink" title="谬论"></a>谬论</h3><p>多进程技术可以忽略 I/O 性能对系统性能的影响</p>
+<ul>
+<li>多进程技术只能提高系统吞吐率，不能减少响应时间</li>
+<li>进程切换有损耗</li>
+</ul>
+<h2 id="RAID"><a href="#RAID" class="headerlink" title="RAID"></a>RAID</h2><blockquote>
+<p>廉价磁盘冗余阵列</p>
+</blockquote>
+<h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>容量大</li>
+<li>速度快</li>
+<li>可靠性高</li>
+<li>造价低廉</li>
+</ul>
+<h3 id="共性"><a href="#共性" class="headerlink" title="共性"></a>共性</h3><ol>
+<li>RAID 由<em>一组</em>物理磁盘驱动组成，操作系统视之为<em>一个</em>逻辑驱动器</li>
+<li>数据分布在一组物理磁盘上</li>
+<li>冗余信息被存储再冗余磁盘空间中，保证磁盘在损坏时可以恢复数据</li>
+<li>第2、3点在不同 RAID 级别中表现不同，<strong>RAID-0不支持第 3 条特性</strong></li>
+</ol>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="关键问题：如何发现磁盘失效"><a href="#关键问题：如何发现磁盘失效" class="headerlink" title="关键问题：如何发现磁盘失效"></a>关键问题：如何发现磁盘失效</h4><p>在扇区中提供故障检测操作的信息</p>
+<h4 id="其它：如何减少平均修复时间MMTR"><a href="#其它：如何减少平均修复时间MMTR" class="headerlink" title="其它：如何减少平均修复时间MMTR"></a>其它：如何减少平均修复时间MMTR</h4><p>在系统中增加热备份盘</p>
+<h3 id="RAID-0"><a href="#RAID-0" class="headerlink" title="RAID-0"></a>RAID-0</h3><ul>
+<li>数据分块——将数据分布在多个盘上</li>
+<li><strong>非冗余阵列，无冗余信息</strong></li>
+<li>不是严格意义上的 RAID</li>
+</ul>
+<h3 id="RAID-1"><a href="#RAID-1" class="headerlink" title="RAID-1"></a>RAID-1</h3><ul>
+<li>镜像盘，使用双备份磁盘</li>
+<li>每当数据写入一个磁盘时，将该数据页写到另一个冗余盘</li>
+</ul>
+<h4 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>读性能好</li>
+<li>写性能由性能最差的磁盘决定</li>
+<li>可靠性高</li>
+<li>最昂贵的解决方法</li>
+</ul>
+<h3 id="RAID-2"><a href="#RAID-2" class="headerlink" title="RAID-2"></a>RAID-2</h3><ul>
+<li>位交叉式<em>海明码</em>阵列</li>
+<li>各个数据盘上相应位计算海明校验码，编码位存放在多个<em>校验磁盘</em>的对应位上</li>
+</ul>
+<h4 id="特点-4"><a href="#特点-4" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>并行存取，各驱动器同步工作</li>
+<li>使用海明码进行检错和纠错，数据传输率高</li>
+<li>需要多个磁盘存放海明码，冗余磁盘数量与数据磁盘数量的对数成正比</li>
+</ul>
+<h3 id="RAID-3"><a href="#RAID-3" class="headerlink" title="RAID-3"></a>RAID-3</h3><ul>
+<li>位交叉奇偶校验盘阵列</li>
+<li>单盘容错并行传输：数据以位/字节交叉存储，奇偶校验信息存储在专用盘上</li>
+</ul>
+<h4 id="特点-5"><a href="#特点-5" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>磁盘分组读写需要访问组中所有盘，每组中有一个校验盘</li>
+<li>采用奇偶校验</li>
+<li>高数据传输率，空间开销小</li>
+<li>恢复时间长，不能同时支持多个 I/O 请求</li>
+</ul>
+<h3 id="RAID-4"><a href="#RAID-4" class="headerlink" title="RAID-4"></a>RAID-4</h3><ul>
+<li>专用奇偶校验独立存取盘阵列</li>
+<li>为解决 RAID-3 无法并行处理的弊端而设计</li>
+<li>数据以块（块大小可变）交叉方式存于各盘，奇偶校验信息在专用盘上</li>
+</ul>
+<h4 id="特点-6"><a href="#特点-6" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>冗余代价于 RAID-3 相同</li>
+<li>访问数据方法与 RAID-3 不同<ul>
+<li>RAID - 3 中，一次磁盘访问将对磁盘阵列中所有磁盘进行操作</li>
+<li>RAID - 4 中，一次磁盘访问只需要对磁盘阵列中某一个磁盘进行操作（不包括校验盘）</li>
+</ul>
+</li>
+</ul>
+<h3 id="RAID-5"><a href="#RAID-5" class="headerlink" title="RAID-5"></a>RAID-5</h3><ul>
+<li>块交叉分布式奇偶校验盘阵列</li>
+<li>数据以块（块大小可变）交叉方式存于各盘，<strong>无专用冗余盘，奇偶校验信息均匀分布在所有磁盘上</strong></li>
+</ul>
+<h4 id="特点-7"><a href="#特点-7" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>解决了 RAID-3 和 RAID-4 中，冗余盘为性能瓶颈的问题</li>
+</ul>
+<h3 id="RAID-6"><a href="#RAID-6" class="headerlink" title="RAID-6"></a>RAID-6</h3><ul>
+<li>双维奇偶校验（P + Q 校验）独立存取盘阵列</li>
+<li>数据以块（块大小可变）交叉方式存于各盘，检错和纠错信息均匀分布在所有磁盘上</li>
+</ul>
+<h4 id="特点-8"><a href="#特点-8" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>可以容忍双盘出错，提高可靠性</li>
+<li>读操作与 RAID-5 类似</li>
+<li>存储开销是 RAID-5 的<strong>两倍</strong></li>
+<li>写过程需要 6 次磁盘操作</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/review/" rel="tag"># review</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/05/%E4%BD%BF%E7%94%A8Hexo%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="使用Hexo发布博客添加图片的方法">
+      <i class="fa fa-chevron-left"></i> 使用Hexo发布博客添加图片的方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/01/Skewed-associative-Caches/" rel="next" title="Skewed-associative_Caches">
+      Skewed-associative_Caches <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-体系结构的基本概念"><span class="nav-number">1.</span> <span class="nav-text">1-体系结构的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机体系结构的基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">计算机体系结构的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机系统中的层次概念"><span class="nav-number">1.1.1.</span> <span class="nav-text">计算机系统中的层次概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机体系结构"><span class="nav-number">1.1.2.</span> <span class="nav-text">计算机体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机组织和计算机实现技术"><span class="nav-number">1.1.3.</span> <span class="nav-text">计算机组织和计算机实现技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定量分析技术"><span class="nav-number">1.2.</span> <span class="nav-text">定量分析技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#性能评测"><span class="nav-number">1.2.1.</span> <span class="nav-text">性能评测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试程序"><span class="nav-number">1.2.2.</span> <span class="nav-text">测试程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能设计和评测的基本原则"><span class="nav-number">1.2.3.</span> <span class="nav-text">性能设计和评测的基本原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU的性能"><span class="nav-number">1.2.4.</span> <span class="nav-text">CPU的性能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-指令集结构-ISA"><span class="nav-number">2.</span> <span class="nav-text">2-指令集结构-ISA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指令集是软件和硬件的接口"><span class="nav-number">2.1.</span> <span class="nav-text">指令集是软件和硬件的接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冯氏模型"><span class="nav-number">2.2.</span> <span class="nav-text">冯氏模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键——Program-Counter-PC"><span class="nav-number">2.2.1.</span> <span class="nav-text">关键——Program Counter(PC)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令格式"><span class="nav-number">2.3.</span> <span class="nav-text">指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#长度"><span class="nav-number">2.3.1.</span> <span class="nav-text">长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码"><span class="nav-number">2.3.2.</span> <span class="nav-text">编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS指令格式"><span class="nav-number">2.3.3.</span> <span class="nav-text">MIPS指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#长度-1"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码-1"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作"><span class="nav-number">2.3.4.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数模型"><span class="nav-number">2.3.5.</span> <span class="nav-text">操作数模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#比较"><span class="nav-number">2.3.5.1.</span> <span class="nav-text">比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#寻址模式"><span class="nav-number">2.3.5.2.</span> <span class="nav-text">寻址模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">2.4.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制"><span class="nav-number">2.5.</span> <span class="nav-text">控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-流水线技术"><span class="nav-number">3.</span> <span class="nav-text">3-流水线技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">3.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">3.1.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS-中的流水线"><span class="nav-number">3.1.3.</span> <span class="nav-text">MIPS 中的流水线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时空图"><span class="nav-number">3.1.4.</span> <span class="nav-text">时空图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">3.1.5.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单功能-多功能流水线"><span class="nav-number">3.1.5.1.</span> <span class="nav-text">1.单功能&#x2F;多功能流水线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-静态-动态流水线"><span class="nav-number">3.1.5.2.</span> <span class="nav-text">2.静态&#x2F;动态流水线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-部件级-处理机级-处理机间流水线"><span class="nav-number">3.1.5.3.</span> <span class="nav-text">3.部件级&#x2F;处理机级&#x2F;处理机间流水线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-标量-向量流水处理机"><span class="nav-number">3.1.5.4.</span> <span class="nav-text">4.标量&#x2F;向量流水处理机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-线性-非线性流水线"><span class="nav-number">3.1.5.5.</span> <span class="nav-text">5.线性&#x2F;非线性流水线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-顺序-乱序流水线"><span class="nav-number">3.1.5.6.</span> <span class="nav-text">6.顺序&#x2F;乱序流水线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流水线性能分析"><span class="nav-number">3.2.</span> <span class="nav-text">流水线性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#吞吐率"><span class="nav-number">3.2.1.</span> <span class="nav-text">吞吐率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加速比"><span class="nav-number">3.2.2.</span> <span class="nav-text">加速比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效率"><span class="nav-number">3.2.3.</span> <span class="nav-text">效率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流水线中的相关"><span class="nav-number">3.3.</span> <span class="nav-text">流水线中的相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构相关"><span class="nav-number">3.3.2.</span> <span class="nav-text">结构相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据相关"><span class="nav-number">3.3.3.</span> <span class="nav-text">数据相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类-2"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#真相关的消除"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">真相关的消除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#检测-等待"><span class="nav-number">3.3.3.2.1.</span> <span class="nav-text">检测-等待</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定向技术"><span class="nav-number">3.3.3.2.2.</span> <span class="nav-text">定向技术</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#需要暂停的相关"><span class="nav-number">3.3.3.2.3.</span> <span class="nav-text">需要暂停的相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#检测-消除"><span class="nav-number">3.3.3.2.4.</span> <span class="nav-text">检测-消除</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出相关和反相关的消除"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">输出相关和反相关的消除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指令调度"><span class="nav-number">3.3.3.4.</span> <span class="nav-text">指令调度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制相关"><span class="nav-number">3.3.4.</span> <span class="nav-text">控制相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#处理"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">处理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-指令级并行ILP"><span class="nav-number">4.</span> <span class="nav-text">4-指令级并行ILP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">4.1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流水线实际CPI"><span class="nav-number">4.1.1.</span> <span class="nav-text">流水线实际CPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本程序块"><span class="nav-number">4.1.2.</span> <span class="nav-text">基本程序块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环级并行"><span class="nav-number">4.1.3.</span> <span class="nav-text">循环级并行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关与冲突"><span class="nav-number">4.1.4.</span> <span class="nav-text">相关与冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#区分"><span class="nav-number">4.1.4.1.</span> <span class="nav-text">区分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决相关"><span class="nav-number">4.1.4.2.</span> <span class="nav-text">解决相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保证程序正确执行必须保持的属性"><span class="nav-number">4.1.4.3.</span> <span class="nav-text">保证程序正确执行必须保持的属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态调度"><span class="nav-number">4.2.</span> <span class="nav-text">动态调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态调度的概念"><span class="nav-number">4.2.1.</span> <span class="nav-text">静态调度的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态调度的概念"><span class="nav-number">4.2.2.</span> <span class="nav-text">动态调度的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乱序执行"><span class="nav-number">4.2.3.</span> <span class="nav-text">乱序执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#带来的问题"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">带来的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计分板算法"><span class="nav-number">4.3.</span> <span class="nav-text">计分板算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">4.3.1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法目标"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">算法目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对-WAR（反相关）的解决方案"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">对 WAR（反相关）的解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对-WAW（输出相关）的解决方案"><span class="nav-number">4.3.1.3.</span> <span class="nav-text">对 WAW（输出相关）的解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对“多条指令同时处于执行当中”问题的解决"><span class="nav-number">4.3.1.4.</span> <span class="nav-text">对“多条指令同时处于执行当中”问题的解决</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计分板控制的四级"><span class="nav-number">4.3.2.</span> <span class="nav-text">计分板控制的四级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">Issue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Read-Operands"><span class="nav-number">4.3.2.2.</span> <span class="nav-text">Read Operands</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution"><span class="nav-number">4.3.2.3.</span> <span class="nav-text">Execution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Write-Result"><span class="nav-number">4.3.2.4.</span> <span class="nav-text">Write Result</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计分板中需要记录的信息"><span class="nav-number">4.3.3.</span> <span class="nav-text">计分板中需要记录的信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Instruction-Status"><span class="nav-number">4.3.3.1.</span> <span class="nav-text">Instruction Status</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functional-Unit-Status"><span class="nav-number">4.3.3.2.</span> <span class="nav-text">Functional Unit Status</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Register-Result-Status"><span class="nav-number">4.3.3.3.</span> <span class="nav-text">Register Result Status</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#信息的登记"><span class="nav-number">4.3.3.4.</span> <span class="nav-text">信息的登记</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-1"><span class="nav-number">4.3.4.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomasulo算法"><span class="nav-number">4.4.</span> <span class="nav-text">Tomasulo算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础-1"><span class="nav-number">4.4.1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目的"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与计分板的对比"><span class="nav-number">4.4.1.2.</span> <span class="nav-text">与计分板的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomasulo-算法的三个阶段"><span class="nav-number">4.4.2.</span> <span class="nav-text">Tomasulo 算法的三个阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue-1"><span class="nav-number">4.4.2.1.</span> <span class="nav-text">Issue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Execution-1"><span class="nav-number">4.4.2.2.</span> <span class="nav-text">Execution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Write-Result-1"><span class="nav-number">4.4.2.3.</span> <span class="nav-text">Write Result</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公共数据总线"><span class="nav-number">4.4.3.</span> <span class="nav-text">公共数据总线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#信息"><span class="nav-number">4.4.3.1.</span> <span class="nav-text">信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">4.4.3.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保留站的组成"><span class="nav-number">4.4.4.</span> <span class="nav-text">保留站的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-2"><span class="nav-number">4.4.5.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态分支预测"><span class="nav-number">4.5.</span> <span class="nav-text">动态分支预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">4.5.1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目的-1"><span class="nav-number">4.5.1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需要解决的问题"><span class="nav-number">4.5.1.2.</span> <span class="nav-text">需要解决的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BHT——分支历史表"><span class="nav-number">4.5.2.</span> <span class="nav-text">BHT——分支历史表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">4.5.2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#只有1个预测位的BHT"><span class="nav-number">4.5.2.2.</span> <span class="nav-text">只有1个预测位的BHT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采用2位二进制记录历史"><span class="nav-number">4.5.2.3.</span> <span class="nav-text">采用2位二进制记录历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两位分支预测的步骤"><span class="nav-number">4.5.2.4.</span> <span class="nav-text">两位分支预测的步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BHT-的适用情况"><span class="nav-number">4.5.2.5.</span> <span class="nav-text">BHT 的适用情况</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BTB——分支目标缓冲器"><span class="nav-number">4.5.3.</span> <span class="nav-text">BTB——分支目标缓冲器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目标"><span class="nav-number">4.5.3.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">4.5.3.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前瞻执行"><span class="nav-number">4.5.4.</span> <span class="nav-text">前瞻执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本思想"><span class="nav-number">4.5.4.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对-Tomasulo-算法进行扩充，使之支持前瞻执行"><span class="nav-number">4.5.4.2.</span> <span class="nav-text">对 Tomasulo 算法进行扩充，使之支持前瞻执行</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#将算法的写结果段分成两段"><span class="nav-number">4.5.4.2.1.</span> <span class="nav-text">将算法的写结果段分成两段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ROB-的组成"><span class="nav-number">4.5.4.2.2.</span> <span class="nav-text">ROB 的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#指令执行步骤"><span class="nav-number">4.5.4.2.3.</span> <span class="nav-text">指令执行步骤</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多指令流出技术"><span class="nav-number">4.6.</span> <span class="nav-text">多指令流出技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多流出处理机的两种基本风格"><span class="nav-number">4.6.1.</span> <span class="nav-text">多流出处理机的两种基本风格</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#超标量-Superscalar"><span class="nav-number">4.6.1.1.</span> <span class="nav-text">超标量(Superscalar)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VLIW-EPIC"><span class="nav-number">4.6.1.2.</span> <span class="nav-text">VLIW&#x2F;EPIC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对比"><span class="nav-number">4.6.1.3.</span> <span class="nav-text">对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态多流出技术"><span class="nav-number">4.6.2.</span> <span class="nav-text">静态多流出技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流出时的冲突检测"><span class="nav-number">4.6.2.1.</span> <span class="nav-text">流出时的冲突检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#影响性能的因素"><span class="nav-number">4.6.2.2.</span> <span class="nav-text">影响性能的因素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态多流出系统"><span class="nav-number">4.6.3.</span> <span class="nav-text">动态多流出系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展-Tomasulo-算法以支持动态多流出"><span class="nav-number">4.6.3.1.</span> <span class="nav-text">扩展 Tomasulo 算法以支持动态多流出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环展开和指令调度"><span class="nav-number">4.7.</span> <span class="nav-text">循环展开和指令调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#循环展开常用方法"><span class="nav-number">4.7.1.</span> <span class="nav-text">循环展开常用方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-存储层次"><span class="nav-number">5.</span> <span class="nav-text">5-存储层次</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储器的层次结构"><span class="nav-number">5.1.</span> <span class="nav-text">存储器的层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计多级存储的原因"><span class="nav-number">5.1.1.</span> <span class="nav-text">设计多级存储的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#层次结构"><span class="nav-number">5.1.2.</span> <span class="nav-text">层次结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能参数"><span class="nav-number">5.1.3.</span> <span class="nav-text">性能参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平均访问时间"><span class="nav-number">5.1.3.1.</span> <span class="nav-text">平均访问时间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache"><span class="nav-number">5.2.</span> <span class="nav-text">Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#映象规则"><span class="nav-number">5.2.1.</span> <span class="nav-text">映象规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全相联映象"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">全相联映象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接映象"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">直接映象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组相联映象"><span class="nav-number">5.2.1.3.</span> <span class="nav-text">组相联映象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相联度"><span class="nav-number">5.2.1.4.</span> <span class="nav-text">相联度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子块-subblock"><span class="nav-number">5.2.1.5.</span> <span class="nav-text">子块(subblock)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找方法"><span class="nav-number">5.2.2.</span> <span class="nav-text">查找方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#侯选位置"><span class="nav-number">5.2.2.1.</span> <span class="nav-text">侯选位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#并行查找实现"><span class="nav-number">5.2.2.2.</span> <span class="nav-text">并行查找实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#地址组成"><span class="nav-number">5.2.2.3.</span> <span class="nav-text">地址组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找步骤"><span class="nav-number">5.2.2.4.</span> <span class="nav-text">查找步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换算法"><span class="nav-number">5.2.3.</span> <span class="nav-text">替换算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最佳替换-OPT"><span class="nav-number">5.2.3.1.</span> <span class="nav-text">最佳替换(OPT)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机法-Random"><span class="nav-number">5.2.3.2.</span> <span class="nav-text">随机法(Random)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先进先出-FIFO"><span class="nav-number">5.2.3.3.</span> <span class="nav-text">先进先出(FIFO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最近最少用-FLU"><span class="nav-number">5.2.3.4.</span> <span class="nav-text">最近最少用(FLU)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写策略"><span class="nav-number">5.2.4.</span> <span class="nav-text">写策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写直达法-Write-Through"><span class="nav-number">5.2.4.1.</span> <span class="nav-text">写直达法(Write Through)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写回法-Write-Back"><span class="nav-number">5.2.4.2.</span> <span class="nav-text">写回法(Write Back)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写失效的解决方法"><span class="nav-number">5.2.4.3.</span> <span class="nav-text">写失效的解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-性能分析"><span class="nav-number">5.2.5.</span> <span class="nav-text">Cache 性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#影响因素"><span class="nav-number">5.2.5.1.</span> <span class="nav-text">影响因素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算公式"><span class="nav-number">5.2.5.2.</span> <span class="nav-text">计算公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改进-Cache-性能"><span class="nav-number">5.2.5.3.</span> <span class="nav-text">改进 Cache 性能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#降低-Cache-失效率的方法"><span class="nav-number">5.3.</span> <span class="nav-text">降低 Cache 失效率的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#失效分类"><span class="nav-number">5.3.1.</span> <span class="nav-text">失效分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">5.3.1.1.</span> <span class="nav-text">解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Victim-Cache"><span class="nav-number">5.3.2.</span> <span class="nav-text">Victim Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashing"><span class="nav-number">5.3.3.</span> <span class="nav-text">Hashing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪相联-Cache"><span class="nav-number">5.3.4.</span> <span class="nav-text">伪相联 Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#访问步骤"><span class="nav-number">5.3.4.1.</span> <span class="nav-text">访问步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器优化"><span class="nav-number">5.3.5.</span> <span class="nav-text">编译器优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少-Cache-失效开销"><span class="nav-number">5.4.</span> <span class="nav-text">减少 Cache 失效开销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存层级平行-MLP"><span class="nav-number">5.4.1.</span> <span class="nav-text">内存层级平行(MLP)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非阻塞-Cache-技术"><span class="nav-number">5.4.2.</span> <span class="nav-text">非阻塞 Cache 技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟存储器"><span class="nav-number">5.5.</span> <span class="nav-text">虚拟存储器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本原理"><span class="nav-number">5.5.1.</span> <span class="nav-text">基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#映象规则-1"><span class="nav-number">5.5.1.1.</span> <span class="nav-text">映象规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找算法"><span class="nav-number">5.5.1.2.</span> <span class="nav-text">查找算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替换算法-1"><span class="nav-number">5.5.1.3.</span> <span class="nav-text">替换算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写策略-1"><span class="nav-number">5.5.1.4.</span> <span class="nav-text">写策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多级页表"><span class="nav-number">5.5.1.5.</span> <span class="nav-text">多级页表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快表-TLB"><span class="nav-number">5.5.2.</span> <span class="nav-text">快表 (TLB)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-I-O系统"><span class="nav-number">6.</span> <span class="nav-text">6-I&#x2F;O系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">6.1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要性"><span class="nav-number">6.1.1.</span> <span class="nav-text">重要性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#衡量指标"><span class="nav-number">6.1.2.</span> <span class="nav-text">衡量指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#谬论"><span class="nav-number">6.1.3.</span> <span class="nav-text">谬论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID"><span class="nav-number">6.2.</span> <span class="nav-text">RAID</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-1"><span class="nav-number">6.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共性"><span class="nav-number">6.2.2.</span> <span class="nav-text">共性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">6.2.3.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关键问题：如何发现磁盘失效"><span class="nav-number">6.2.3.1.</span> <span class="nav-text">关键问题：如何发现磁盘失效</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它：如何减少平均修复时间MMTR"><span class="nav-number">6.2.3.2.</span> <span class="nav-text">其它：如何减少平均修复时间MMTR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-0"><span class="nav-number">6.2.4.</span> <span class="nav-text">RAID-0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-1"><span class="nav-number">6.2.5.</span> <span class="nav-text">RAID-1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-3"><span class="nav-number">6.2.5.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-2"><span class="nav-number">6.2.6.</span> <span class="nav-text">RAID-2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-4"><span class="nav-number">6.2.6.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-3"><span class="nav-number">6.2.7.</span> <span class="nav-text">RAID-3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-5"><span class="nav-number">6.2.7.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-4"><span class="nav-number">6.2.8.</span> <span class="nav-text">RAID-4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-6"><span class="nav-number">6.2.8.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-5"><span class="nav-number">6.2.9.</span> <span class="nav-text">RAID-5</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-7"><span class="nav-number">6.2.9.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-6"><span class="nav-number">6.2.10.</span> <span class="nav-text">RAID-6</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-8"><span class="nav-number">6.2.10.1.</span> <span class="nav-text">特点</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Table"
+      src="http://b72.photo.store.qq.com/psu?/6d7528e8-ad05-46cc-82b5-f1d51d7bd21d/EskL3ib81EmNiXXsSpimj7ktDu3uSHwFyDVqx6m5Wcc!/b/Ycub.yeOegAAYrS8*ypVHQAA&a=67&b=72&bo=jACMAAAAAAABBCM!&rf=viewer_4">
+  <p class="site-author-name" itemprop="name">Table</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Table-the-cat" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Table-the-cat" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/2428819" title="bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;2428819" rel="noopener" target="_blank"><i class="fa fa-fw fa-television"></i>bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://bangumi.tv/user/table233" title="Bangumi → https:&#x2F;&#x2F;bangumi.tv&#x2F;user&#x2F;table233" rel="noopener" target="_blank"><i class="fa fa-fw fa-link"></i>Bangumi</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Table</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
