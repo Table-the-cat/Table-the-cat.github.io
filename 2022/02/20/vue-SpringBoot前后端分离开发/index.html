@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"table-the-cat.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"left","width":300,"display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文介绍前后端分离开发的基本环境搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue+SpringBoot前后端分离开发">
+<meta property="og:url" content="http://table-the-cat.github.io/2022/02/20/vue-SpringBoot%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="Table&#39;s Blog">
+<meta property="og:description" content="本文介绍前后端分离开发的基本环境搭建">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-02-20T11:35:19.000Z">
+<meta property="article:modified_time" content="2022-04-07T07:39:36.270Z">
+<meta property="article:author" content="Table">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="前后端分离开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://table-the-cat.github.io/2022/02/20/vue-SpringBoot%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>vue+SpringBoot前后端分离开发 | Table's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Table's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nothing here</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2022/02/20/vue-SpringBoot%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/anju.JPG">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue+SpringBoot前后端分离开发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-02-20 19:35:19" itemprop="dateCreated datePublished" datetime="2022-02-20T19:35:19+08:00">2022-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-07 15:39:36" itemprop="dateModified" datetime="2022-04-07T15:39:36+08:00">2022-04-07</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文介绍前后端分离开发的基本环境搭建</p>
+<a id="more"></a>
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在弄学校课程的前端图像处理项目，想着正好把vue和前后端分离这方面的东西顺便学一下，于是打算拿这个项目练手。</p>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p>前后端项目均在GitHub上开源，地址如下：</p>
+<blockquote>
+<p>前端：<a href="https://github.com/Table-the-cat/webip" target="_blank" rel="noopener">https://github.com/Table-the-cat/webip</a><br>后端：<a href="https://github.com/Table-the-cat/webip-server" target="_blank" rel="noopener">https://github.com/Table-the-cat/webip-server</a></p>
+</blockquote>
+<h2 id="SpringBoot项目"><a href="#SpringBoot项目" class="headerlink" title="SpringBoot项目"></a>SpringBoot项目</h2><h3 id="搭建SpringBoot项目"><a href="#搭建SpringBoot项目" class="headerlink" title="搭建SpringBoot项目"></a>搭建SpringBoot项目</h3><p>访问网页 <a href="http://start.spring.io/" target="_blank" rel="noopener">http://start.spring.io/</a> ，填写必要信息后下载项目压缩包。</p>
+<blockquote>
+<p>Project：选择使用Maven还是Gradle来构建项目<br>Language：选择项目使用的语言<br>SpringBoot：选择SpringBoot版本</p>
+<p>Project Metadata：</p>
+<blockquote>
+<p>Group：项目组织唯一的标识符，实际对应项目中的package包<br>Artifect：项目的唯一的标识符，实际对应项目的project name名称，Artifact不可包含大写字母<br>Name：项目名<br>Description：项目描述</p>
+</blockquote>
+</blockquote>
+<p>解压后用IDEA打开项目，IDEA会自动扫描pom文件并开始安装依赖，也可以通过<code>Maven-&gt;Lifecycle-&gt;install</code>来手动安装依赖。</p>
+<h3 id="基本准备"><a href="#基本准备" class="headerlink" title="基本准备"></a>基本准备</h3><p>因为要做前后端分离，在SpringBoot项目里做的自然是纯后端的工作，主要有以下方面的准备：</p>
+<ul>
+<li>数据库</li>
+<li>数据库访问框架（本项目使用MyBatis）</li>
+<li>定义与数据库数据对应的实体类（pojo层）</li>
+<li>编写mapper文件，包括<code>resource/mapper</code>路径下的xml文件和<code>java/com/table/webip/mapper</code>路径下的java文件（dao层）</li>
+<li>编写对应的service和serviceImpl文件（service层）</li>
+<li>编写controller文件（controller层）</li>
+</ul>
+<p>准备完毕之后，需要修改配置文件<code>application.properties</code>，为项目配置数据源和MyBatis：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## 数据源配置</span><br><span class="line">spring.datasource.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;jdbc?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf8&amp;autoReconnect&#x3D;true&amp;failOverReadOnly&#x3D;false</span><br><span class="line">spring.datasource.username&#x3D;root</span><br><span class="line">spring.datasource.password&#x3D;jiang</span><br><span class="line">spring.datasource.driver-class-name&#x3D;com.mysql.jdbc.Driver</span><br><span class="line"></span><br><span class="line">## Mybatis 配置</span><br><span class="line"># 配置为 com.pancm.bean 指向实体类包路径。</span><br><span class="line">mybatis.type-aliases-package&#x3D;com.table.webip</span><br><span class="line"># 配置为 classpath 路径下 mapper 包下，* 代表会扫描所有 xml 文件，如果不配置该项，项目将扫描不到mapper文件。</span><br><span class="line">mybatis.mapper-locations&#x3D;classpath:mapper&#x2F;*.xml</span><br><span class="line">#mybatis.configuration.map-underscore-to-camel-case&#x3D;true  </span><br><span class="line">spring.aop.auto&#x3D;true</span><br></pre></td></tr></table></figure>
+
+<h3 id="试运行"><a href="#试运行" class="headerlink" title="试运行"></a>试运行</h3><p>运行<code>WebipApplication.java</code>文件，启动项目，项目默认运行在8080端口上。</p>
+<h2 id="Vue项目"><a href="#Vue项目" class="headerlink" title="Vue项目"></a>Vue项目</h2><h3 id="搭建Vue项目"><a href="#搭建Vue项目" class="headerlink" title="搭建Vue项目"></a>搭建Vue项目</h3><p>首先列出大致步骤：</p>
+<ul>
+<li>安装node.js</li>
+<li>安装webpack</li>
+<li>安装vue-cli</li>
+<li>初始化Vue项目</li>
+<li>试运行</li>
+</ul>
+<h4 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h4><p>在官网下载安装即可。<br>使用<code>node -v</code>指令检查是否安装成功，输出版本号即为安装成功。</p>
+<h4 id="安装webpack"><a href="#安装webpack" class="headerlink" title="安装webpack"></a>安装webpack</h4><p>webpack是一款开源的前端打包工具。<br>使用<code>cnpm install webpack -g</code>指令进行全局安装，安装完成之后输入 <code>webpack -v</code>检查是否安装成功。</p>
+<h4 id="安装vue-cli"><a href="#安装vue-cli" class="headerlink" title="安装vue-cli"></a>安装vue-cli</h4><p>使用<code>cnpm install vue-cli -g</code>指令进行全局安装，安装完成之后输入 <code>vue -V</code>（注意<strong>大写</strong>）检查是否安装成功。</p>
+<h4 id="初始化Vue项目"><a href="#初始化Vue项目" class="headerlink" title="初始化Vue项目"></a>初始化Vue项目</h4><p>在想创建项目的文件夹中右键，在右键菜单中选择Git Bash Here，打开命令行窗口，输入指令<code>vue init webpack project_name</code>，用project_name处替换为自己的项目名。<br>创建好之后进入该项目文件夹，在项目路径下输入指令<code>npm install</code>安装项目所需依赖。</p>
+<h4 id="试运行-1"><a href="#试运行-1" class="headerlink" title="试运行"></a>试运行</h4><p>输入指令<code>npm run dev</code>启动项目，如果此时你的后端SpringBoot项目仍在运行，则该项目应该会运行在8081端口上。访问localhost:8081便可以看见vue自动生成的初始界面。</p>
+<h2 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h2><p>当前后端项目运行在8080端口，而前端项目运行在8081端口，前端需要设置代理才能正常向后端发送请求。</p>
+<h3 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h3><p>加入如下代码：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置全局的axios</span></span><br><span class="line">Vue.prototype.$axios=Axios</span><br><span class="line"><span class="comment">// 设置基本路径</span></span><br><span class="line">Axios.defaults.baseURL=<span class="string">'/api'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="config-index-js"><a href="#config-index-js" class="headerlink" title="config/index.js"></a>config/index.js</h3><p>将proxyTable的内容替换为如下代码：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">proxyTable: &#123;</span><br><span class="line">  <span class="string">'/api'</span>:&#123;</span><br><span class="line">    target:<span class="string">"http://localhost:8080/"</span>,</span><br><span class="line">    changeOrigin:<span class="literal">true</span>,</span><br><span class="line">    pathRewrite:&#123;</span><br><span class="line">      <span class="string">'^/api'</span>:<span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>此时便可以正常向后端发送请求。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+              <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+              <a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91/" rel="tag"># 前后端分离开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/19/SpringBoot%E8%AE%BF%E9%97%AE%E4%B8%8A%E4%BC%A0%E8%B5%84%E6%BA%90%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="SpringBoot访问上传资源的问题">
+      <i class="fa fa-chevron-left"></i> SpringBoot访问上传资源的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/02/getImageData-%E8%8E%B7%E5%8F%96%E4%B8%8D%E6%AD%A3%E7%A1%AE%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="getImageData方法获取不正确的问题">
+      getImageData方法获取不正确的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目地址"><span class="nav-number">2.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot项目"><span class="nav-number">3.</span> <span class="nav-text">SpringBoot项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建SpringBoot项目"><span class="nav-number">3.1.</span> <span class="nav-text">搭建SpringBoot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本准备"><span class="nav-number">3.2.</span> <span class="nav-text">基本准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#试运行"><span class="nav-number">3.3.</span> <span class="nav-text">试运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue项目"><span class="nav-number">4.</span> <span class="nav-text">Vue项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建Vue项目"><span class="nav-number">4.1.</span> <span class="nav-text">搭建Vue项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装node-js"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装webpack"><span class="nav-number">4.1.2.</span> <span class="nav-text">安装webpack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装vue-cli"><span class="nav-number">4.1.3.</span> <span class="nav-text">安装vue-cli</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化Vue项目"><span class="nav-number">4.1.4.</span> <span class="nav-text">初始化Vue项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#试运行-1"><span class="nav-number">4.1.5.</span> <span class="nav-text">试运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合"><span class="nav-number">5.</span> <span class="nav-text">整合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-js"><span class="nav-number">5.1.</span> <span class="nav-text">main.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#config-index-js"><span class="nav-number">5.2.</span> <span class="nav-text">config&#x2F;index.js</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Table"
+      src="/images/anju.JPG">
+  <p class="site-author-name" itemprop="name">Table</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Table-the-cat" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Table-the-cat" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/2428819" title="bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;2428819" rel="noopener" target="_blank"><i class="fa fa-fw fa-television"></i>bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://bangumi.tv/user/table233" title="Bangumi → https:&#x2F;&#x2F;bangumi.tv&#x2F;user&#x2F;table233" rel="noopener" target="_blank"><i class="fa fa-fw fa-link"></i>Bangumi</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:Table4869@gmail.com" title="E-Mail → mailto:Table4869@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Table</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
