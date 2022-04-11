@@ -20,17 +20,20 @@
     var CONFIG = {"hostname":"table-the-cat.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","width":240,"display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://table-the-cat.github.io/tags/index.html">
+  <meta name="description" content="本篇简单介绍DOM事件的一些基础概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件派发和DOM事件流">
+<meta property="og:url" content="http://table-the-cat.github.io/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%B4%BE%E5%8F%91%E5%92%8CDOM%E4%BA%8B%E4%BB%B6%E6%B5%81/index.html">
 <meta property="og:site_name" content="Table&#39;s Blog">
+<meta property="og:description" content="本篇简单介绍DOM事件的一些基础概念">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-04-07T06:44:35.000Z">
-<meta property="article:modified_time" content="2022-04-07T06:45:24.462Z">
+<meta property="article:published_time" content="2022-04-11T11:14:28.000Z">
+<meta property="article:modified_time" content="2022-04-11T12:31:55.528Z">
 <meta property="article:author" content="Table">
+<meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://table-the-cat.github.io/tags/">
+<link rel="canonical" href="http://table-the-cat.github.io/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%B4%BE%E5%8F%91%E5%92%8CDOM%E4%BA%8B%E4%BB%B6%E6%B5%81/">
 
 
 <script id="page-configurations">
@@ -38,12 +41,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>tags | Table's Blog
-  </title>
+  <title>事件派发和DOM事件流 | Table's Blog</title>
   
 
 
@@ -166,52 +168,117 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="en">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%B4%BE%E5%8F%91%E5%92%8CDOM%E4%BA%8B%E4%BB%B6%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/anju.JPG">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          事件派发和DOM事件流
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">tags
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
 
-<div class="post-meta">
+              <time title="Created: 2022-04-11 19:14:28 / Modified: 20:31:55" itemprop="dateCreated datePublished" datetime="2022-04-11T19:14:28+08:00">2022-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本篇简单介绍DOM事件的一些基础概念</p>
+<a id="more"></a>
+
+
+
+<h2 id="事件派发"><a href="#事件派发" class="headerlink" title="事件派发"></a>事件派发</h2><p>应用程序可以使用<code>dispatchEvent()</code>方法来派发事件对象，事件对象将按照DOM事件流决定的方式在DOM树中传播。</p>
+<h3 id="EventTarget-dispatchEvent"><a href="#EventTarget-dispatchEvent" class="headerlink" title="EventTarget.dispatchEvent"></a>EventTarget.dispatchEvent</h3><p>该方法向一个指定的事件目标派发一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener">事件</a>, 并以合适的顺序<strong>同步调用</strong>目标元素相关的事件处理函数。标准事件处理规则(包括事件捕获和可选的冒泡过程)同样适用于通过手动的使用<code>dispatchEvent()</code>方法派发的事件。</p>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><p>事件对象被派发到一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget" target="_blank" rel="noopener">事件目标(EventTarget)</a>。但在派发开始之前，必须首先确定事件对象的传播路径。</p>
+<blockquote>
+<p><code>EventTarget</code> 是一个 DOM 接口，由可以接收事件、并且可以创建侦听器的对象实现。</p>
+<p><code>Element</code>，<code>document</code> 和 <code>window</code> 是最常见的 event targets ，但是其他对象也可以作为 event targets，比如 <code>XMLHttpRequest</code>，<code>AudioNode</code>，<code>AudioContext</code>  等等。</p>
+</blockquote>
+<p>传播路径是事件所经过的当前事件目标的一个有序列表。这个传播路径反映了文档的层次树形结构。列表中的<strong>最后一项</strong>是事件目标，列表中前面的元素被称为事件目标的祖先，紧跟在事件目标之前的元素（即倒数第二个元素）是目标的父级。</p>
+<p>一旦传播路径被确定，事件对象会经过一个<em>或</em> 多个事件阶段。</p>
+<h3 id="事件阶段"><a href="#事件阶段" class="headerlink" title="事件阶段"></a>事件阶段</h3><table>
+<thead>
+<tr>
+<th align="left">阶段</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">捕获阶段</td>
+<td align="left">事件正在被目标元素的祖先对象处理. 这个处理过程从<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window" target="_blank" rel="noopener"><code>Window</code></a>开始，然后<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document" target="_blank" rel="noopener"><code>Document</code></a>, 然后是<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLHtmlElement" target="_blank" rel="noopener"><code>HTMLHtmlElement</code></a>, 一直这样，直到目标元素的父元素。 通过<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="noopener"><code>EventTarget.addEventListener()</code></a> 注册为捕获模式的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventListener" target="_blank" rel="noopener">Event listeners</a> 被调用。</td>
+</tr>
+<tr>
+<td align="left">目标阶段</td>
+<td align="left">事件对象已经抵达事件目标（EventTarget）. 为这个阶段注册的事件监听被调用。 如果 <code>Event.bubbles</code>的值为<code>false</code>, 对事件对象的处理在这个阶段后就会结束.</td>
+</tr>
+<tr>
+<td align="left">冒泡阶段</td>
+<td align="left">事件对象逆向向上传播回目标元素的祖先元素, 从父亲元素开始，并且最终到达包含元素 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window" target="_blank" rel="noopener"><code>Window</code></a>。只有<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/bubbles" target="_blank" rel="noopener"><code>Event.bubbles</code></a> 值为<code>true</code>的时候才会发生。 为这个阶段注册的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventListener" target="_blank" rel="noopener">Event listeners</a> 在这个过程中被触发.</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/" rel="prev" title="事件捕获和事件冒泡">
+      <i class="fa fa-chevron-left"></i> 事件捕获和事件冒泡
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              17 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/Android/" style="font-size: 21px; color: #6f6f6f">Android</a> <a href="/tags/Bootstrap/" style="font-size: 12px; color: #ccc">Bootstrap</a> <a href="/tags/C/" style="font-size: 12px; color: #ccc">C</a> <a href="/tags/Computer-Architecture/" style="font-size: 12px; color: #ccc">Computer Architecture</a> <a href="/tags/Flutter/" style="font-size: 21px; color: #6f6f6f">Flutter</a> <a href="/tags/Javascript/" style="font-size: 25.5px; color: #404040">Javascript</a> <a href="/tags/MyBatis/" style="font-size: 12px; color: #ccc">MyBatis</a> <a href="/tags/SpringBoot/" style="font-size: 12px; color: #ccc">SpringBoot</a> <a href="/tags/canvas/" style="font-size: 21px; color: #6f6f6f">canvas</a> <a href="/tags/hexo/" style="font-size: 16.5px; color: #9d9d9d">hexo</a> <a href="/tags/node-js/" style="font-size: 25.5px; color: #404040">node.js</a> <a href="/tags/review/" style="font-size: 12px; color: #ccc">review</a> <a href="/tags/vue/" style="font-size: 12px; color: #ccc">vue</a> <a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91/" style="font-size: 12px; color: #ccc">前后端分离开发</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 30px; color: #111">前端</a> <a href="/tags/%E5%90%8E%E7%AB%AF/" style="font-size: 16.5px; color: #9d9d9d">后端</a> <a href="/tags/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98/" style="font-size: 16.5px; color: #9d9d9d">日常问题</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -263,6 +330,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件派发"><span class="nav-number">1.</span> <span class="nav-text">事件派发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventTarget-dispatchEvent"><span class="nav-number">1.1.</span> <span class="nav-text">EventTarget.dispatchEvent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件流"><span class="nav-number">2.</span> <span class="nav-text">事件流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件阶段"><span class="nav-number">2.1.</span> <span class="nav-text">事件阶段</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

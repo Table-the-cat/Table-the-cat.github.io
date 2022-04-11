@@ -2127,4 +2127,103 @@
         <tag>Javascript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>事件派发和DOM事件流</title>
+    <url>/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%B4%BE%E5%8F%91%E5%92%8CDOM%E4%BA%8B%E4%BB%B6%E6%B5%81/</url>
+    <content><![CDATA[<p>本篇简单介绍DOM事件的一些基础概念</p>
+<a id="more"></a>
+
+
+
+<h2 id="事件派发"><a href="#事件派发" class="headerlink" title="事件派发"></a>事件派发</h2><p>应用程序可以使用<code>dispatchEvent()</code>方法来派发事件对象，事件对象将按照DOM事件流决定的方式在DOM树中传播。</p>
+<h3 id="EventTarget-dispatchEvent"><a href="#EventTarget-dispatchEvent" class="headerlink" title="EventTarget.dispatchEvent"></a>EventTarget.dispatchEvent</h3><p>该方法向一个指定的事件目标派发一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener">事件</a>, 并以合适的顺序<strong>同步调用</strong>目标元素相关的事件处理函数。标准事件处理规则(包括事件捕获和可选的冒泡过程)同样适用于通过手动的使用<code>dispatchEvent()</code>方法派发的事件。</p>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><p>事件对象被派发到一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget" target="_blank" rel="noopener">事件目标(EventTarget)</a>。但在派发开始之前，必须首先确定事件对象的传播路径。</p>
+<blockquote>
+<p><code>EventTarget</code> 是一个 DOM 接口，由可以接收事件、并且可以创建侦听器的对象实现。</p>
+<p><code>Element</code>，<code>document</code> 和 <code>window</code> 是最常见的 event targets ，但是其他对象也可以作为 event targets，比如 <code>XMLHttpRequest</code>，<code>AudioNode</code>，<code>AudioContext</code>  等等。</p>
+</blockquote>
+<p>传播路径是事件所经过的当前事件目标的一个有序列表。这个传播路径反映了文档的层次树形结构。列表中的<strong>最后一项</strong>是事件目标，列表中前面的元素被称为事件目标的祖先，紧跟在事件目标之前的元素（即倒数第二个元素）是目标的父级。</p>
+<p>一旦传播路径被确定，事件对象会经过一个<em>或</em> 多个事件阶段。</p>
+<h3 id="事件阶段"><a href="#事件阶段" class="headerlink" title="事件阶段"></a>事件阶段</h3><table>
+<thead>
+<tr>
+<th align="left">阶段</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">捕获阶段</td>
+<td align="left">事件正在被目标元素的祖先对象处理. 这个处理过程从<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window" target="_blank" rel="noopener"><code>Window</code></a>开始，然后<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document" target="_blank" rel="noopener"><code>Document</code></a>, 然后是<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLHtmlElement" target="_blank" rel="noopener"><code>HTMLHtmlElement</code></a>, 一直这样，直到目标元素的父元素。 通过<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="noopener"><code>EventTarget.addEventListener()</code></a> 注册为捕获模式的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventListener" target="_blank" rel="noopener">Event listeners</a> 被调用。</td>
+</tr>
+<tr>
+<td align="left">目标阶段</td>
+<td align="left">事件对象已经抵达事件目标（EventTarget）. 为这个阶段注册的事件监听被调用。 如果 <code>Event.bubbles</code>的值为<code>false</code>, 对事件对象的处理在这个阶段后就会结束.</td>
+</tr>
+<tr>
+<td align="left">冒泡阶段</td>
+<td align="left">事件对象逆向向上传播回目标元素的祖先元素, 从父亲元素开始，并且最终到达包含元素 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window" target="_blank" rel="noopener"><code>Window</code></a>。只有<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/bubbles" target="_blank" rel="noopener"><code>Event.bubbles</code></a> 值为<code>true</code>的时候才会发生。 为这个阶段注册的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventListener" target="_blank" rel="noopener">Event listeners</a> 在这个过程中被触发.</td>
+</tr>
+</tbody></table>
+]]></content>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>事件捕获和事件冒泡</title>
+    <url>/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/</url>
+    <content><![CDATA[<p>本文介绍关于事件捕获和冒泡的相关概念</p>
+<a id="more"></a>
+
+<p>内容参考MDN文档：<a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events#%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%8F%8A%E6%8D%95%E8%8E%B7" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events#%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%8F%8A%E6%8D%95%E8%8E%B7</a></p>
+<h1 id="事件冒泡及捕获"><a href="#事件冒泡及捕获" class="headerlink" title="事件冒泡及捕获"></a>事件冒泡及捕获</h1><blockquote>
+<p>事件冒泡和捕捉是两种机制，主要描述当在一个元素上有两个相同类型的事件处理器被激活会发生什么。</p>
+</blockquote>
+<p>干讲很抽象，这里引入一个例子：<br><img src="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/examplePage.jpg" alt></p>
+<p>如上图，页面中有两个div元素<code>div-parent</code>和<code>div-child</code>，深灰色区域为外层div元素<code>div-parent</code>，浅灰色区域为内层div元素<code>div-child</code>。现在为两个div元素都添加一个事件处理器：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> divParent = <span class="built_in">document</span>.getElementById(<span class="string">'div-parent'</span>);</span><br><span class="line"><span class="keyword">var</span> divChild = <span class="built_in">document</span>.getElementById(<span class="string">'div-child'</span>);</span><br><span class="line"></span><br><span class="line">divParent.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'parent'</span>);</span><br><span class="line">&#125;;</span><br><span class="line">divChild.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'child'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当点击深灰色区域时，控制台只会输出‘parent’，这点自不必说。需要注意的是在点击浅色区域时，控制台会<strong>先后输出</strong>‘child’和‘parent’，如下图：<br><img src="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/clickResponse.jpg" alt></p>
+<p>造成这种现象的原因便是<strong>事件冒泡</strong></p>
+<h2 id="对事件冒泡和捕捉的解释"><a href="#对事件冒泡和捕捉的解释" class="headerlink" title="对事件冒泡和捕捉的解释"></a>对事件冒泡和捕捉的解释</h2><p>当一个事件发生在具有父元素的元素上时，现代浏览器运行两个不同的阶段，即<strong>捕获阶段</strong>和<strong>冒泡阶段</strong>。</p>
+<h3 id="捕获阶段"><a href="#捕获阶段" class="headerlink" title="捕获阶段"></a>捕获阶段</h3><ul>
+<li>浏览器检查元素的最外层祖先<code>&lt;html&gt;</code>，是否在捕获阶段中注册了一个事件处理程序（本例中该事件为<code>onclick</code>），如果是，则运行它。</li>
+<li>然后，它移动到<code>&lt;html&gt;</code>中单击元素的下一个祖先元素，并执行相同的操作，然后是单击元素再下一个祖先元素，依此类推，直到到达实际点击的元素。</li>
+</ul>
+<h3 id="冒泡阶段"><a href="#冒泡阶段" class="headerlink" title="冒泡阶段"></a>冒泡阶段</h3><ul>
+<li>浏览器检查实际触发事件（本例中触发的事件为点击事件）的元素是否在冒泡阶段中注册了一个对应的事件处理程序（本例中为<code>onclick</code>），如果是，则运行它。</li>
+<li>然后它移动到下一个<strong>直接</strong>的祖先元素，并做同样的事情，然后是下一个，等等，直到它到达<code>&lt;html&gt;</code>元素。</li>
+</ul>
+<p>用图片来解释，事件捕获和事件冒泡流程如下：</p>
+<p><img src="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/captureNbubble.jpg" alt></p>
+<p>可以看到，事件捕获（Event Capturing）和事件冒泡（Event Bubbling）的顺序正好是相反的。在现代浏览器中，默认情况下，所有事件处理程序都在<strong>冒泡阶段</strong>进行注册。</p>
+<h2 id="阻止事件传播"><a href="#阻止事件传播" class="headerlink" title="阻止事件传播"></a>阻止事件传播</h2><p>我们有时候会不希望事件对象向父元素的方向进行传播（比如<a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events#%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%8F%8A%E6%8D%95%E8%8E%B7" target="_blank" rel="noopener">MDN</a>中给出的例子），此时可以使用<code>stopPropagation()</code>方法解决这个问题。</p>
+<h3 id="stopPropagation"><a href="#stopPropagation" class="headerlink" title="stopPropagation()"></a>stopPropagation()</h3><p>该方法是标准事件对象自带的方法，当在事件对象上调用该函数时，它只会让当前事件处理程序运行，但事件不会在<strong>冒泡</strong>链上进一步扩大，因此将不会执行其他的事件处理器(不会向上冒泡)。</p>
+<p>因此，对上例中的代码稍作修改：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">divChild.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  	e.stopPropagation();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'child'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，再点击内侧元素，控制台只输出‘child’：<img src="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/clickNew.jpg" alt></p>
+<h3 id="Event-bubbles"><a href="#Event-bubbles" class="headerlink" title="Event.bubbles"></a>Event.bubbles</h3><p>可以通过设置事件对象的<code>bubbles</code>属性来跳过事件流的冒泡阶段，关于事件流，详见<a href="https://www.w3.org/TR/DOM-Level-3-Events/#event-flow" target="_blank" rel="noopener">此处</a>，或者本站的另一篇博文<a href>事件派发和事件流</a>.</p>
+<p><strong>需要注意：</strong>在事件触发之后的回调函数中设置事件的<code>bubbles</code>属性<strong>并不能</strong>阻止事件的冒泡，需要在事件派发之前，即创建事件对象的时候就设置。</p>
+<p>事件对象的构造函数如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">event = <span class="keyword">new</span> Event(typeArg, eventInit);</span><br></pre></td></tr></table></figure>
+
+<p>其参数：</p>
+<h5 id="typeArg"><a href="#typeArg" class="headerlink" title="typeArg"></a><em>typeArg</em></h5><p><code>DOMString</code> 类型，表示所创建事件的名称。</p>
+<h5 id="eventInit"><a href="#eventInit" class="headerlink" title="eventInit"></a><em>eventInit</em></h5><p>是 <code>EventInit</code> 类型的字典，接受以下字段:</p>
+<ul>
+<li><code>&quot;bubbles&quot;</code>，可选，<code>Boolean</code>类型，默认值为 <code>false</code>，表示该事件是否冒泡。</li>
+<li><code>&quot;cancelable&quot;</code>，可选，<code>Boolean</code>类型，默认值为 <code>false</code>， 表示该事件能否被取消。</li>
+<li><code>&quot;composed&quot;</code>，可选，<code>Boolean</code>类型，默认值为 <code>false</code>，指示事件是否会在影子DOM根节点之外触发侦听器。</li>
+</ul>
+<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><p>如果想要在大量子元素中单击任何一个都可以运行一段代码，可以<em>将事件监听器设置在其父节点上</em>，并让子节点上发生的事件冒泡到父节点上，而不是每个子节点单独设置事件监听器。</p>
+<blockquote>
+<p>一个很好的例子是一系列列表项，如果你想让每个列表项被点击时弹出一条信息，您可以将<code>click</code>单击事件监听器设置在父元素<code>&lt;ul&gt;</code>上，这样事件就会从列表项冒泡到其父元素<code>&lt;ul&gt;</code>上。</p>
+<p>这个的概念在David Walsh的博客上有更多的解释，并有多个例子——看看<a href="https://davidwalsh.name/event-delegate" target="_blank" rel="noopener">How JavaScript Event Delegation Works</a>.</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
 </search>
