@@ -2203,7 +2203,7 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">divChild.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  	e.stopPropagation();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'child'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>此时，再点击内侧元素，控制台只输出‘child’：<img src="/2022/04/11/%E4%BA%8B%E4%BB%B6%E6%8D%95%E8%8E%B7%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/clickNew.jpg" alt></p>
-<h3 id="Event-bubbles"><a href="#Event-bubbles" class="headerlink" title="Event.bubbles"></a>Event.bubbles</h3><p>可以通过设置事件对象的<code>bubbles</code>属性来跳过事件流的冒泡阶段，关于事件流，详见<a href="https://www.w3.org/TR/DOM-Level-3-Events/#event-flow" target="_blank" rel="noopener">此处</a>，或者本站的另一篇博文<a href>事件派发和事件流</a>.</p>
+<h3 id="Event-bubbles"><a href="#Event-bubbles" class="headerlink" title="Event.bubbles"></a>Event.bubbles</h3><p>可以通过设置事件对象的<code>bubbles</code>属性来跳过事件流的冒泡阶段，关于事件流，详见<a href="https://www.w3.org/TR/DOM-Level-3-Events/#event-flow" target="_blank" rel="noopener">此处</a>，或者本站的另一篇博文<a href="/2022/04/11/事件派发和DOM事件流/">事件派发和事件流</a>.</p>
 <p><strong>需要注意：</strong>在事件触发之后的回调函数中设置事件的<code>bubbles</code>属性<strong>并不能</strong>阻止事件的冒泡，需要在事件派发之前，即创建事件对象的时候就设置。</p>
 <p>事件对象的构造函数如下：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">event = <span class="keyword">new</span> Event(typeArg, eventInit);</span><br></pre></td></tr></table></figure>
@@ -2224,6 +2224,69 @@
 ]]></content>
       <tags>
         <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java AST 之 Bindings</title>
+    <url>/2022/04/12/Java-AST-%E4%B9%8B-Bindings/</url>
+    <content><![CDATA[<p>本篇摘自eclips官方文档<a href="https://www.eclipse.org/articles/Article-JavaCodeManipulation_AST/#sec-bindings" target="_blank" rel="noopener">https://www.eclipse.org/articles/Article-JavaCodeManipulation_AST/#sec-bindings</a></p>
+<a id="more"></a>
+
+
+
+<h1 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h1><p>本文内容基本上是对eclips官方文档中有关<a href="https://www.eclipse.org/articles/Article-JavaCodeManipulation_AST/#sec-bindings" target="_blank" rel="noopener">Bindings</a>这一节的翻译，本人翻译水平有限，推荐各位阅读原文。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>AST 是源代码的树形表示。源代码中的每个元素都被映射到一个节点或子树上。</p>
+<p>举个例子，现在有一个变量<code>i</code>的引用，该引用由<code>SimpleName</code>的一个实例表示，其中“i”作为属性<code>IDENTIFIER</code>的值。而绑定(<code>Bindings</code>)所做的事则更进一步：绑定可以为 AST 的某几个特定元素提供扩展的解析信息。关于上面的 <code>SimpleName</code>，绑定可以告诉我们变量<code>i</code>是对 int 类型的局部变量的引用。</p>
+<blockquote>
+<p><code>SimpleName</code>类表示简单名称的 AST 节点。简单名称是除关键字、布尔文字（“true”、“false”）或空文字（“null”）之外的<em>标识符</em></p>
+<p><a href="https://www.ibm.com/docs/api/v1/content/SS8PJ7_9.5.0/org.eclipse.jdt.doc.isv/reference/api/org/eclipse/jdt/core/dom/SimpleName.html" target="_blank" rel="noopener">查看详情</a></p>
+</blockquote>
+<p>ASTNode 的很多子类都有绑定信息。可以通过在这些类上调用<code>resolveBinding()</code>方法来检索绑定信息。在某些情况下，有多个绑定是可用的：例如<code>MethodInvocation</code>类调用<code>resolveMethodBinding()</code>方法返回<em>被调用方法的绑定</em> ；此外，<code>MethodInvocation</code>类还提供了<code>resolveTypeBinding()</code>方法，以获取<em>方法返回类型的绑定</em>；以及有关方法调用是否涉及装箱 (<code>resolveBoxing()</code>) 或拆箱 (<code>resolveUnboxing()</code>) 的信息。</p>
+<blockquote>
+<p><code>MethodInvocation</code>类表示方法调用的 AST 节点。该节点是对一个<em>方法调用表达式</em>的映射</p>
+</blockquote>
+<p><strong>注意：</strong>计算绑定的开销很大，因此必须在解析原代码时时<strong>显式地</strong>请求绑定服务。通过在解析源代码之前将方法 <code>ASTParser.setResolveBindings()</code>的参数设为<code>true</code>来完成对绑定服务的请求。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>继续上文的关于对变量<code>i</code>的引用的例子，这次可以直观地看到绑定提供的附加信息。</p>
+<p>假设源码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">7</span>;</span><br><span class="line">System.out.println(<span class="string">"Hello!"</span>);</span><br><span class="line"><span class="keyword">int</span> x = i * <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如上文所述，变量<code>i</code>的引用由<code>SimpleName</code>表示。如果没有绑定，我们只能获得以下信息：<img src="/2022/04/12/Java-AST-%E4%B9%8B-Bindings/sn-screenshot.png" alt></p>
+<p>可以看到，只能获得<code>IDENTIFIER: &#39;i&#39;</code></p>
+<p>而绑定可以提供更多的信息：<img src="/2022/04/12/Java-AST-%E4%B9%8B-Bindings/sn-bindings-screenshot.png" alt></p>
+<h2 id="绑定的用途"><a href="#绑定的用途" class="headerlink" title="绑定的用途"></a>绑定的用途</h2><p>利用绑定：</p>
+<ul>
+<li>可以轻松地找出引用属于哪个声明；</li>
+<li>可以检测两个元素是否是对同一元素的引用：如果是，则引用节点和声明节点返回的绑定是相同的；</li>
+<li>使用绑定来标识元素（变量、方法、类型等），可以避免由同名元素引起的混淆。</li>
+</ul>
+<p>例如，现有多个表示对局部变量 <code>i</code>的引用的<code>SimpleName</code>实例，调用这些<code>SimpleName</code>实例的<code>resolveBindings()</code>方法，其都会返回相同的<code>IVariableBinding</code>实例。局部变量 <code>i</code>的声明节点，<code>VariableDeclarationFragment.resolveBinding()</code>也返回相同的<code>IVariableBinding</code>实例。</p>
+<p>如果有另一个局部变量<code>i</code>的声明（在另一个方法或块中），则会返回另一个<code>IVariableBinding</code>实例。</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>AST</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Eclipse插件开发引入jar包</title>
+    <url>/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/</url>
+    <content><![CDATA[<p>本篇讲解如何在Eclipse插件项目中引入jar包，内容参考<a href="https://blog.csdn.net/zxh2075/article/details/106620396" target="_blank" rel="noopener">https://blog.csdn.net/zxh2075/article/details/106620396</a></p>
+<a id="more"></a>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><h2 id="类加载器和OSGI"><a href="#类加载器和OSGI" class="headerlink" title="类加载器和OSGI"></a>类加载器和OSGI</h2><p><strong>类加载器 (class loader)</strong>，顾名思义就是 JVM 用于加载类的一个工具。当然，它本身也是一个 Java 类，见<code>java.lang.ClassLoader</code>。它维护内部的类名空间，相互关系（域），并为它们隔绝外部侵害。</p>
+<p><strong>OSGi (Open Service Gateway Initiative)</strong>，是一套基于 Java 的开放式接口协议。它的思想和 Java 插件的思想类似，都希望将程序分解为小的可重用组件，并通过组合它们来构成更功能强大的可执行程序。OSGi 实现了在运行时对模块进行动态添加和删除（热插拔）。eclipse 实现 OSGi 主要途径，就是通过为每个 bundle 分配一个独立的 classloader，然后使用<code>MANIFEST.MF</code>文件的配置，来维护这些 bundle 之间的关系。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>如果在开发 eclipse 插件的过程中要引入 jar 包，<strong>不能</strong>像开发普通 Java 项目一样，直接把需要用到的jar包添加到项目的运行环境中，这样做在<strong>编译时</strong>不会报错，但在<strong>运行时</strong>可能会抛出<code>java.lang.NoClassDefFoundError</code>错误。</p>
+<h3 id="问题的本质"><a href="#问题的本质" class="headerlink" title="问题的本质"></a>问题的本质</h3><p>各 bundle 间的 classloader 是独立的，在项目运行时，添加的 jar 包并没有加载到本 bundle 的 classloader 中来，从而导致运行时报错。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>项目 -&gt; MANIFEST.MF -&gt; runtime -&gt; classpath -&gt; add，在此处添加需要引入的 jar 包。</p>
+<p><code>MANIFEST.MF</code>文件一般在如下图所示位置：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/manifest.png" alt></p>
+<p>之后的操作如下：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/classpath.png" alt></p>
+<p>之后弹出如下对话框，在此选择需要引入的 jar 包，点击 确定即可：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/add.png" alt></p>
+]]></content>
+      <tags>
+        <tag>Eclipse插件开发</tag>
       </tags>
   </entry>
 </search>

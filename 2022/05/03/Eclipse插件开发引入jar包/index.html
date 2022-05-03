@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"table-the-cat.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","width":240,"display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本篇讲解如何在Eclipse插件项目中引入jar包，内容参考https:&#x2F;&#x2F;blog.csdn.net&#x2F;zxh2075&#x2F;article&#x2F;details&#x2F;106620396">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse插件开发引入jar包">
+<meta property="og:url" content="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/index.html">
+<meta property="og:site_name" content="Table&#39;s Blog">
+<meta property="og:description" content="本篇讲解如何在Eclipse插件项目中引入jar包，内容参考https:&#x2F;&#x2F;blog.csdn.net&#x2F;zxh2075&#x2F;article&#x2F;details&#x2F;106620396">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/manifest.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/classpath.png">
+<meta property="og:image" content="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/add.png">
+<meta property="article:published_time" content="2022-05-03T14:07:40.000Z">
+<meta property="article:modified_time" content="2022-05-03T14:41:59.320Z">
+<meta property="article:author" content="Table">
+<meta property="article:tag" content="Eclipse插件开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/manifest.png">
+
+<link rel="canonical" href="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Eclipse插件开发引入jar包 | Table's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Table's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nothing here</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://table-the-cat.github.io/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/anju.JPG">
+      <meta itemprop="name" content="Table">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Table's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Eclipse插件开发引入jar包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-03 22:07:40 / Modified: 22:41:59" itemprop="dateCreated datePublished" datetime="2022-05-03T22:07:40+08:00">2022-05-03</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本篇讲解如何在Eclipse插件项目中引入jar包，内容参考<a href="https://blog.csdn.net/zxh2075/article/details/106620396" target="_blank" rel="noopener">https://blog.csdn.net/zxh2075/article/details/106620396</a></p>
+<a id="more"></a>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><h2 id="类加载器和OSGI"><a href="#类加载器和OSGI" class="headerlink" title="类加载器和OSGI"></a>类加载器和OSGI</h2><p><strong>类加载器 (class loader)</strong>，顾名思义就是 JVM 用于加载类的一个工具。当然，它本身也是一个 Java 类，见<code>java.lang.ClassLoader</code>。它维护内部的类名空间，相互关系（域），并为它们隔绝外部侵害。</p>
+<p><strong>OSGi (Open Service Gateway Initiative)</strong>，是一套基于 Java 的开放式接口协议。它的思想和 Java 插件的思想类似，都希望将程序分解为小的可重用组件，并通过组合它们来构成更功能强大的可执行程序。OSGi 实现了在运行时对模块进行动态添加和删除（热插拔）。eclipse 实现 OSGi 主要途径，就是通过为每个 bundle 分配一个独立的 classloader，然后使用<code>MANIFEST.MF</code>文件的配置，来维护这些 bundle 之间的关系。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>如果在开发 eclipse 插件的过程中要引入 jar 包，<strong>不能</strong>像开发普通 Java 项目一样，直接把需要用到的jar包添加到项目的运行环境中，这样做在<strong>编译时</strong>不会报错，但在<strong>运行时</strong>可能会抛出<code>java.lang.NoClassDefFoundError</code>错误。</p>
+<h3 id="问题的本质"><a href="#问题的本质" class="headerlink" title="问题的本质"></a>问题的本质</h3><p>各 bundle 间的 classloader 是独立的，在项目运行时，添加的 jar 包并没有加载到本 bundle 的 classloader 中来，从而导致运行时报错。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>项目 -&gt; MANIFEST.MF -&gt; runtime -&gt; classpath -&gt; add，在此处添加需要引入的 jar 包。</p>
+<p><code>MANIFEST.MF</code>文件一般在如下图所示位置：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/manifest.png" alt></p>
+<p>之后的操作如下：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/classpath.png" alt></p>
+<p>之后弹出如下对话框，在此选择需要引入的 jar 包，点击 确定即可：</p>
+<p><img src="/2022/05/03/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%BC%95%E5%85%A5jar%E5%8C%85/add.png" alt></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Eclipse%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># Eclipse插件开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/12/Java-AST-%E4%B9%8B-Bindings/" rel="prev" title="Java AST 之 Bindings">
+      <i class="fa fa-chevron-left"></i> Java AST 之 Bindings
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载器和OSGI"><span class="nav-number">1.1.</span> <span class="nav-text">类加载器和OSGI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.2.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题的本质"><span class="nav-number">1.2.1.</span> <span class="nav-text">问题的本质</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Table"
+      src="/images/anju.JPG">
+  <p class="site-author-name" itemprop="name">Table</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Table-the-cat" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Table-the-cat" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/2428819" title="bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;2428819" rel="noopener" target="_blank"><i class="fa fa-fw fa-television"></i>bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://bangumi.tv/user/table233" title="Bangumi → https:&#x2F;&#x2F;bangumi.tv&#x2F;user&#x2F;table233" rel="noopener" target="_blank"><i class="fa fa-fw fa-link"></i>Bangumi</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:Table4869@gmail.com" title="E-Mail → mailto:Table4869@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Table</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
